@@ -1,0 +1,127 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api.proto",
+    "version": "3"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json",
+    "multipart/form-data"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v3/ac/timetable": {
+      "get": {
+        "summary": "/v3/ac/timetable",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.xmux.base.bridge.v3.GetTimetableResp"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "xmux.base.bridge.v3.Bridge"
+        ]
+      }
+    },
+    "/xmux.base.bridge.v3.Bridge/Ping": {
+      "get": {
+        "summary": "/xmux.base.bridge.v3.Bridge/Ping",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.google.protobuf.Empty"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "xmux.base.bridge.v3.Bridge"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    ".google.protobuf.Empty": {
+      "type": "object",
+      "properties": {},
+      "description": "A generic empty message that you can re-use to avoid defining duplicated\n empty messages in your APIs. A typical example is to use it as the request\n or the response type of an API method. For instance:\n\n     service Foo {\n       rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n     }\n\n The JSON representation for `Empty` is empty JSON object `{}`."
+    },
+    ".xmux.base.bridge.v3.GetTimetableResp": {
+      "type": "object",
+      "properties": {
+        "timetable": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/.xmux.base.bridge.v3.TimetableClass"
+          }
+        },
+        "recentUpdateS": {
+          "type": "string"
+        }
+      }
+    },
+    ".xmux.base.bridge.v3.TimetableClass": {
+      "type": "object",
+      "properties": {
+        "cid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "lecturer": {
+          "type": "string"
+        },
+        "room": {
+          "type": "string"
+        },
+        "day": {
+          "type": "integer"
+        },
+        "start": {
+          "type": "string"
+        },
+        "end": {
+          "type": "string"
+        },
+        "startDay": {
+          "type": "string"
+        },
+        "endDay": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

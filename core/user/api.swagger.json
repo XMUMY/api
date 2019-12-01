@@ -1,0 +1,364 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api.proto",
+    "version": "3"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json",
+    "multipart/form-data"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v3/user/device": {
+      "put": {
+        "summary": "RefreshDevice push key and last seen.",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.google.protobuf.Empty"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/.xmux.base.user.v3.RefreshDeviceReq"
+            }
+          }
+        ],
+        "tags": [
+          "xmux.base.user.v3.User"
+        ]
+      }
+    },
+    "/v3/user/devices": {
+      "get": {
+        "summary": "GetDevices of authenticated user.",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.xmux.base.user.v3.GetDevicesResp"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "xmux.base.user.v3.User"
+        ]
+      },
+      "delete": {
+        "summary": "RevokeDevices will revoke firebase refresh token and delete all devices associated with user.",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.google.protobuf.Empty"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/.google.protobuf.Empty"
+            }
+          }
+        ],
+        "tags": [
+          "xmux.base.user.v3.User"
+        ]
+      }
+    },
+    "/v3/user/login": {
+      "get": {
+        "summary": "Login with basic authorization.",
+        "description": "Will try to register in first login.\n Returns error if information not adequate to create user.",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.xmux.base.user.v3.LoginResp"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "xmux.base.user.v3.User"
+        ]
+      },
+      "post": {
+        "summary": "Register and login with provided information.",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.xmux.base.user.v3.LoginResp"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/.xmux.base.user.v3.RegisterReq"
+            }
+          }
+        ],
+        "tags": [
+          "xmux.base.user.v3.User"
+        ]
+      }
+    },
+    "/xmux.base.user.v3.User/AuthUser": {
+      "get": {
+        "summary": "Authenticate user with basic uid and password.",
+        "description": "The uid and password should be basic in metadata/authorization",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.xmux.base.user.v3.AuthedUser"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "xmux.base.user.v3.User"
+        ]
+      }
+    },
+    "/xmux.base.user.v3.User/AuthUserWithFirebaseJWT": {
+      "get": {
+        "summary": "Authenticate user with Firebase JWT.",
+        "description": "The token should be bearer in metadata/authorization.",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.xmux.base.user.v3.AuthedUser"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "xmux.base.user.v3.User"
+        ]
+      }
+    },
+    "/xmux.base.user.v3.User/Ping": {
+      "get": {
+        "summary": "/xmux.base.user.v3.User/Ping",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.google.protobuf.Empty"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "xmux.base.user.v3.User"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    ".google.protobuf.Empty": {
+      "type": "object",
+      "properties": {},
+      "description": "A generic empty message that you can re-use to avoid defining duplicated\n empty messages in your APIs. A typical example is to use it as the request\n or the response type of an API method. For instance:\n\n     service Foo {\n       rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n     }\n\n The JSON representation for `Empty` is empty JSON object `{}`."
+    },
+    ".xmux.base.user.v3.AuthedUser": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string"
+        },
+        "role": {
+          "type": "integer"
+        },
+        "password": {
+          "type": "string",
+          "description": "Warning: Password may be empty if authenticate using bearer token."
+        }
+      }
+    },
+    ".xmux.base.user.v3.Device": {
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "type": "string"
+        },
+        "deviceModel": {
+          "type": "string"
+        },
+        "deviceName": {
+          "type": "string"
+        },
+        "lastSeenS": {
+          "type": "string"
+        }
+      }
+    },
+    ".xmux.base.user.v3.GetDevicesResp": {
+      "type": "object",
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/.xmux.base.user.v3.Device"
+          }
+        }
+      }
+    },
+    ".xmux.base.user.v3.LoginResp": {
+      "type": "object",
+      "properties": {
+        "customToken": {
+          "type": "string",
+          "description": "CustomToken that can be used to login Firebase."
+        }
+      }
+    },
+    ".xmux.base.user.v3.RefreshDeviceReq": {
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "type": "string"
+        },
+        "deviceModel": {
+          "type": "string"
+        },
+        "deviceName": {
+          "type": "string"
+        },
+        "pushChannel": {
+          "type": "string"
+        },
+        "pushKey": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "deviceId",
+        "deviceModel",
+        "deviceName"
+      ]
+    },
+    ".xmux.base.user.v3.RegisterReq": {
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "displayName",
+        "email"
+      ]
+    }
+  }
+}
