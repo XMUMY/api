@@ -6,8 +6,8 @@ package api
 import (
 	"context"
 
-	bm "github.com/bilibili/kratos/pkg/net/http/blademaster"
-	"github.com/bilibili/kratos/pkg/net/http/blademaster/binding"
+	bm "github.com/go-kratos/kratos/pkg/net/http/blademaster"
+	"github.com/go-kratos/kratos/pkg/net/http/blademaster/binding"
 )
 import google_protobuf1 "github.com/golang/protobuf/ptypes/empty"
 
@@ -20,6 +20,7 @@ var PathUserAuthUser = "/xmux.base.user.v3.User/AuthUser"
 var PathUserAuthUserWithFirebaseJWT = "/xmux.base.user.v3.User/AuthUserWithFirebaseJWT"
 var PathUserLogin = "/v3/user/login"
 var PathUserRegister = "/v3/user/login"
+var PathUserGetProfile = "/v3/user/profile"
 var PathUserRefreshDevice = "/v3/user/device"
 var PathUserGetDevices = "/v3/user/devices"
 var PathUserRevokeDevices = "/v3/user/devices"
@@ -42,6 +43,9 @@ type UserBMServer interface {
 
 	// Register and login with provided information.
 	Register(ctx context.Context, req *RegisterReq) (resp *LoginResp, err error)
+
+	// GetProfile of specified user.
+	GetProfile(ctx context.Context, req *GetProfileReq) (resp *Profile, err error)
 
 	// RefreshDevice push key and last seen.
 	RefreshDevice(ctx context.Context, req *RefreshDeviceReq) (resp *google_protobuf1.Empty, err error)
@@ -93,6 +97,15 @@ func userRegister(c *bm.Context) {
 	c.JSON(resp, err)
 }
 
+func userGetProfile(c *bm.Context) {
+	p := new(GetProfileReq)
+	if err := c.BindWith(p, binding.Default(c.Request.Method, c.Request.Header.Get("Content-Type"))); err != nil {
+		return
+	}
+	resp, err := UserSvc.GetProfile(c, p)
+	c.JSON(resp, err)
+}
+
 func userRefreshDevice(c *bm.Context) {
 	p := new(RefreshDeviceReq)
 	if err := c.BindWith(p, binding.Default(c.Request.Method, c.Request.Header.Get("Content-Type"))); err != nil {
@@ -136,6 +149,7 @@ func RegisterUserBMServer(e *bm.Engine, server UserBMServer) {
 	e.GET("/xmux.base.user.v3.User/AuthUserWithFirebaseJWT", userAuthUserWithFirebaseJWT)
 	e.GET("/v3/user/login", userLogin)
 	e.POST("/v3/user/login", userRegister)
+	e.GET("/v3/user/profile", userGetProfile)
 	e.PUT("/v3/user/device", userRefreshDevice)
 	e.GET("/v3/user/devices", userGetDevices)
 	e.DELETE("/v3/user/devices", userRevokeDevices)

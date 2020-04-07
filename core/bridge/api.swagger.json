@@ -16,9 +16,128 @@
     "application/json"
   ],
   "paths": {
+    "/v3/ac/attendance/briefs": {
+      "get": {
+        "summary": "GetStudentAttendanceBriefs for lecturer.",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.xmux.base.bridge.v3.GetStudentAttendanceBriefsResp"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "cid",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "tags": [
+          "xmux.base.bridge.v3.Bridge"
+        ]
+      }
+    },
+    "/v3/ac/attendance/detail": {
+      "get": {
+        "summary": "GetStudentAttendanceDetail for lecturer.",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.xmux.base.bridge.v3.StudentAttendanceDetail"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "cid",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timestampS",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "xmux.base.bridge.v3.Bridge"
+        ]
+      }
+    },
+    "/v3/ac/attendance/update": {
+      "post": {
+        "summary": "UpdateStudentAttendance for lecturer.",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.xmux.base.bridge.v3.UpdateStudentAttendanceResp"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/.xmux.base.bridge.v3.UpdateStudentAttendanceReq"
+            }
+          }
+        ],
+        "tags": [
+          "xmux.base.bridge.v3.Bridge"
+        ]
+      }
+    },
     "/v3/ac/timetable": {
       "get": {
-        "summary": "/v3/ac/timetable",
+        "summary": "GetTimetable according to uid.",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -33,6 +152,33 @@
                 },
                 "data": {
                   "$ref": "#/definitions/.xmux.base.bridge.v3.GetTimetableResp"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "xmux.base.bridge.v3.Bridge"
+        ]
+      }
+    },
+    "/xmux.base.bridge.v3.Bridge/GetInfo": {
+      "get": {
+        "summary": "/xmux.base.bridge.v3.Bridge/GetInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.xmux.base.bridge.v3.Info"
                 }
               }
             }
@@ -77,6 +223,43 @@
       "properties": {},
       "description": "A generic empty message that you can re-use to avoid defining duplicated\n empty messages in your APIs. A typical example is to use it as the request\n or the response type of an API method. For instance:\n\n     service Foo {\n       rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n     }\n\n The JSON representation for `Empty` is empty JSON object `{}`."
     },
+    ".xmux.base.bridge.v3.GetStudentAttendanceBriefsReq": {
+      "type": "object",
+      "properties": {
+        "cid": {
+          "type": "string"
+        },
+        "until": {
+          "type": "integer"
+        }
+      }
+    },
+    ".xmux.base.bridge.v3.GetStudentAttendanceBriefsResp": {
+      "type": "object",
+      "properties": {
+        "briefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/.xmux.base.bridge.v3.StudentAttendanceBrief"
+          }
+        }
+      }
+    },
+    ".xmux.base.bridge.v3.GetStudentAttendanceDetailReq": {
+      "type": "object",
+      "properties": {
+        "cid": {
+          "type": "string"
+        },
+        "timestampS": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "cid",
+        "timestampS"
+      ]
+    },
     ".xmux.base.bridge.v3.GetTimetableResp": {
       "type": "object",
       "properties": {
@@ -88,6 +271,86 @@
         },
         "recentUpdateS": {
           "type": "string"
+        }
+      }
+    },
+    ".xmux.base.bridge.v3.Info": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "nationality": {
+          "type": "string"
+        }
+      }
+    },
+    ".xmux.base.bridge.v3.StudentAttendance": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "integer"
+        }
+      }
+    },
+    ".xmux.base.bridge.v3.StudentAttendanceBrief": {
+      "type": "object",
+      "properties": {
+        "cid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "timestampS": {
+          "type": "string"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "attended": {
+          "type": "integer"
+        }
+      }
+    },
+    ".xmux.base.bridge.v3.StudentAttendanceDetail": {
+      "type": "object",
+      "properties": {
+        "cid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "timestampS": {
+          "type": "string"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "attended": {
+          "type": "integer"
+        },
+        "students": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/.xmux.base.bridge.v3.StudentAttendance"
+          }
         }
       }
     },
@@ -120,6 +383,45 @@
         },
         "endDay": {
           "type": "string"
+        }
+      }
+    },
+    ".xmux.base.bridge.v3.UpdateStudentAttendanceReq": {
+      "type": "object",
+      "properties": {
+        "cid": {
+          "type": "string"
+        },
+        "timestampS": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "update": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "cid",
+        "timestampS",
+        "update"
+      ]
+    },
+    ".xmux.base.bridge.v3.UpdateStudentAttendanceResp": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "updated": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     }

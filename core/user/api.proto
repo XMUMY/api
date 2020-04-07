@@ -34,6 +34,13 @@ service User {
         };
     };
 
+    // GetProfile of specified user.
+    rpc GetProfile (GetProfileReq) returns (Profile) {
+        option (google.api.http) = {
+            get:"/v3/user/profile"
+        };
+    }
+
     // RefreshDevice push key and last seen.
     rpc RefreshDevice (RefreshDeviceReq) returns (.google.protobuf.Empty) {
         option (google.api.http) = {
@@ -72,8 +79,8 @@ message AuthedUser {
 }
 
 message RegisterReq {
-    string displayName = 1 [(gogoproto.moretags) = 'validate:"required,max=50"'];
-    string email = 2 [(gogoproto.moretags) = 'validate:"required,email,max=50"'];
+    string displayName = 1 [(gogoproto.moretags) = 'form:"displayName" validate:"required,max=50"'];
+    string email = 2 [(gogoproto.moretags) = 'form:"email" validate:"required,email,max=50"'];
 }
 
 message LoginResp {
@@ -81,12 +88,27 @@ message LoginResp {
     string customToken = 1;
 }
 
+message GetProfileReq {
+    string uid = 1 [(gogoproto.moretags) = 'form:"uid"'];
+}
+
+message Profile {
+    string uid = 1;
+    string displayName = 2;
+    string avatar = 3;
+    string name = 4;
+}
+
 message RefreshDeviceReq {
-    string deviceId = 1 [(gogoproto.moretags) = 'validate:"required,max=100"'];
-    string deviceModel = 2 [(gogoproto.moretags) = 'validate:"required,max=100"'];
-    string deviceName = 3 [(gogoproto.moretags) = 'validate:"required,max=100"'];
-    string pushChannel = 4 [(gogoproto.moretags) = 'default:"none"'];
-    string pushKey = 5;
+    string deviceId = 1 [(gogoproto.moretags) = 'form:"deviceId" validate:"required,max=100"'];
+    string deviceModel = 2 [(gogoproto.moretags) = 'form:"deviceModel" validate:"required,max=100"'];
+    string deviceName = 3 [(gogoproto.moretags) = 'form:"deviceName" validate:"required,max=100"'];
+    string pushChannel = 4 [(gogoproto.moretags) = 'form:"pushChannel" default:"none"'];
+    string pushKey = 5 [(gogoproto.moretags) = 'form:"pushKey"'];
+}
+
+message GetDevicesResp {
+    repeated Device devices = 1;
 }
 
 message Device {
@@ -94,8 +116,4 @@ message Device {
     string deviceModel = 2;
     string deviceName = 3;
     string lastSeenS = 4;
-}
-
-message GetDevicesResp {
-    repeated Device devices = 1;
 }

@@ -5,9 +5,9 @@ import (
 	"os"
 
 	"git.xdea.xyz/micros/lib/net/metadata"
-	"github.com/bilibili/kratos/pkg/log"
-	"github.com/bilibili/kratos/pkg/net/http/blademaster"
-	"github.com/bilibili/kratos/pkg/net/rpc/warden"
+	"github.com/go-kratos/kratos/pkg/log"
+	"github.com/go-kratos/kratos/pkg/net/http/blademaster"
+	"github.com/go-kratos/kratos/pkg/net/rpc/warden"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
 )
@@ -44,10 +44,10 @@ func ensureUserClient(client UserClient) {
 	}
 }
 
-// AuthFirebaseJWT will create a blademaster middleware to verify firebase JWT token if exist.
+// ForceAuthFirebaseJWTMiddleware will create a blademaster middleware to verify firebase JWT token if exist.
 //
 // UserClient will be created by env AUTH_ADDR if not specified.
-func AuthFirebaseJWT(client UserClient) blademaster.HandlerFunc {
+func AuthFirebaseJWTMiddleware(client UserClient) blademaster.HandlerFunc {
 	ensureUserClient(client)
 
 	return func(ctx *blademaster.Context) {
@@ -63,11 +63,11 @@ func AuthFirebaseJWT(client UserClient) blademaster.HandlerFunc {
 	}
 }
 
-// ForceAuthFirebaseJWT will create a blademaster middleware to verify firebase JWT token
+// ForceAuthFirebaseJWTMiddleware will create a blademaster middleware to verify firebase JWT token
 // and abort with 403/401 if failed to authenticate / not exist.
 //
 // UserClient will be created by env AUTH_ADDR if not specified.
-func ForceAuthFirebaseJWT(client UserClient) blademaster.HandlerFunc {
+func ForceAuthFirebaseJWTMiddleware(client UserClient) blademaster.HandlerFunc {
 	ensureUserClient(client)
 
 	return func(ctx *blademaster.Context) {
@@ -114,6 +114,22 @@ func EnsureAuthenticated(ctx context.Context, client UserClient) (authedUser *Au
 	if err == nil && token != "" {
 		ctx = metadata.TransferAuthorizationToGRPC(ctx)
 		authedUser, err = userAPIClient.AuthUserWithFirebaseJWT(ctx, &empty.Empty{})
+		if err == nil {
+			return
+		}
+	}
+
+	return nil
+}
+
+// AuthBasic verify user credential by uid and password only.
+func AuthBasic(ctx context.Context, client UserClient) (authedUser *AuthedUser) {
+	ensureUserClient(client)
+
+	uid, password, err := metadata.BasicFromContext(ctx)
+	if err == nil && uid != "" && password != "" {
+		ctx = metadata.TransferAuthorizationToGRPC(ctx)
+		authedUser, err = userAPIClient.AuthUser(ctx, &empty.Empty{})
 		if err == nil {
 			return
 		}

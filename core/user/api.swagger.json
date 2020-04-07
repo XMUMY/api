@@ -178,6 +178,41 @@
         ]
       }
     },
+    "/v3/user/profile": {
+      "get": {
+        "summary": "GetProfile of specified user.",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/definitions/.xmux.base.user.v3.Profile"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "xmux.base.user.v3.User"
+        ]
+      }
+    },
     "/xmux.base.user.v3.User/AuthUser": {
       "get": {
         "summary": "Authenticate user with basic uid and password.",
@@ -311,12 +346,37 @@
         }
       }
     },
+    ".xmux.base.user.v3.GetProfileReq": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string"
+        }
+      }
+    },
     ".xmux.base.user.v3.LoginResp": {
       "type": "object",
       "properties": {
         "customToken": {
           "type": "string",
           "description": "CustomToken that can be used to login Firebase."
+        }
+      }
+    },
+    ".xmux.base.user.v3.Profile": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
         }
       }
     },

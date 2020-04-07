@@ -10,13 +10,48 @@ option go_package = "api";
 option (gogoproto.goproto_getters_all) = false;
 
 service Bridge {
+    rpc GetInfo (.google.protobuf.Empty) returns (Info);
+
+    // GetTimetable according to uid.
     rpc GetTimetable (.google.protobuf.Empty) returns (GetTimetableResp) {
         option (google.api.http) = {
             get:"/v3/ac/timetable"
         };
     }
 
+    // GetStudentAttendanceBriefs for lecturer.
+    rpc GetStudentAttendanceBriefs (GetStudentAttendanceBriefsReq) returns (GetStudentAttendanceBriefsResp) {
+        option (google.api.http) = {
+            get:"/v3/ac/attendance/briefs"
+        };
+    }
+
+    // GetStudentAttendanceDetail for lecturer.
+    rpc GetStudentAttendanceDetail (GetStudentAttendanceDetailReq) returns (StudentAttendanceDetail) {
+        option (google.api.http) = {
+            get:"/v3/ac/attendance/detail"
+        };
+    }
+
+    // UpdateStudentAttendance for lecturer.
+    rpc UpdateStudentAttendance (UpdateStudentAttendanceReq) returns (UpdateStudentAttendanceResp) {
+        option (google.api.http) = {
+            post:"/v3/ac/attendance/update"
+        };
+    }
+
     rpc Ping (.google.protobuf.Empty) returns (.google.protobuf.Empty);
+}
+
+message Info {
+    enum Gender {
+        male = 0;
+        female = 1;
+    }
+    string name = 1;
+    Gender gender = 2;
+    string id = 3;
+    string nationality = 4;
 }
 
 message GetTimetableResp {
@@ -34,4 +69,58 @@ message TimetableClass {
     string end = 7;
     string startDay = 8;
     string endDay = 9;
+}
+
+message GetStudentAttendanceBriefsReq {
+    string cid = 1 [(gogoproto.moretags) = 'form:"cid"'];
+    uint64 until = 2 [(gogoproto.moretags) = 'form:"until"'];
+}
+
+message GetStudentAttendanceBriefsResp {
+    repeated StudentAttendanceBrief briefs = 1;
+}
+
+message StudentAttendanceBrief {
+    string cid = 1;
+    string name = 2;
+    string timestampS = 3;
+    uint32 total = 4;
+    uint32 attended = 5;
+}
+
+message GetStudentAttendanceDetailReq {
+    string cid = 1 [(gogoproto.moretags) = 'form:"cid" validate:"required"'];
+    string timestampS = 2 [(gogoproto.moretags) = 'form:"timestampS" validate:"required"'];
+}
+
+message StudentAttendanceDetail {
+    string cid = 1;
+    string name = 2;
+    string timestampS = 3;
+    uint32 total = 4;
+    uint32 attended = 5;
+    repeated StudentAttendance students = 6;
+}
+
+message StudentAttendance {
+    string uid = 1;
+    string name = 2;
+    string status = 3;
+    uint64 timestamp = 4;
+}
+
+message UpdateStudentAttendanceReq {
+    enum Status {
+        failed = 0;
+        attended = 1;
+    }
+    string cid = 1 [(gogoproto.moretags) = 'form:"cid" validate:"required"'];
+    string timestampS = 2 [(gogoproto.moretags) = 'form:"timestampS" validate:"required"'];
+    Status status = 3 [(gogoproto.moretags) = 'form:"status" validate:"gte=0,lte=1"'];
+    repeated string update = 4 [(gogoproto.moretags) = 'form:"update" validate:"required"'];
+}
+
+message UpdateStudentAttendanceResp {
+    string status = 1;
+    repeated string updated = 2;
 }

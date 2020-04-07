@@ -29,6 +29,99 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+type Info_Gender int32
+
+const (
+	Info_male   Info_Gender = 0
+	Info_female Info_Gender = 1
+)
+
+var Info_Gender_name = map[int32]string{
+	0: "male",
+	1: "female",
+}
+
+var Info_Gender_value = map[string]int32{
+	"male":   0,
+	"female": 1,
+}
+
+func (x Info_Gender) String() string {
+	return proto.EnumName(Info_Gender_name, int32(x))
+}
+
+func (Info_Gender) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{0, 0}
+}
+
+type UpdateStudentAttendanceReq_Status int32
+
+const (
+	UpdateStudentAttendanceReq_failed   UpdateStudentAttendanceReq_Status = 0
+	UpdateStudentAttendanceReq_attended UpdateStudentAttendanceReq_Status = 1
+)
+
+var UpdateStudentAttendanceReq_Status_name = map[int32]string{
+	0: "failed",
+	1: "attended",
+}
+
+var UpdateStudentAttendanceReq_Status_value = map[string]int32{
+	"failed":   0,
+	"attended": 1,
+}
+
+func (x UpdateStudentAttendanceReq_Status) String() string {
+	return proto.EnumName(UpdateStudentAttendanceReq_Status_name, int32(x))
+}
+
+func (UpdateStudentAttendanceReq_Status) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{9, 0}
+}
+
+type Info struct {
+	Name                 string      `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Gender               Info_Gender `protobuf:"varint,2,opt,name=gender,proto3,enum=xmux.base.bridge.v3.Info_Gender" json:"gender,omitempty"`
+	Id                   string      `protobuf:"bytes,3,opt,name=id,proto3" json:"id,omitempty"`
+	Nationality          string      `protobuf:"bytes,4,opt,name=nationality,proto3" json:"nationality,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
+}
+
+func (m *Info) Reset()         { *m = Info{} }
+func (m *Info) String() string { return proto.CompactTextString(m) }
+func (*Info) ProtoMessage()    {}
+func (*Info) Descriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{0}
+}
+func (m *Info) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Info) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Info.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Info) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Info.Merge(m, src)
+}
+func (m *Info) XXX_Size() int {
+	return m.Size()
+}
+func (m *Info) XXX_DiscardUnknown() {
+	xxx_messageInfo_Info.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Info proto.InternalMessageInfo
+
 type GetTimetableResp struct {
 	Timetable            []*TimetableClass `protobuf:"bytes,1,rep,name=timetable,proto3" json:"timetable,omitempty"`
 	RecentUpdateS        string            `protobuf:"bytes,2,opt,name=recentUpdateS,proto3" json:"recentUpdateS,omitempty"`
@@ -41,7 +134,7 @@ func (m *GetTimetableResp) Reset()         { *m = GetTimetableResp{} }
 func (m *GetTimetableResp) String() string { return proto.CompactTextString(m) }
 func (*GetTimetableResp) ProtoMessage()    {}
 func (*GetTimetableResp) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{0}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{1}
 }
 func (m *GetTimetableResp) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -89,7 +182,7 @@ func (m *TimetableClass) Reset()         { *m = TimetableClass{} }
 func (m *TimetableClass) String() string { return proto.CompactTextString(m) }
 func (*TimetableClass) ProtoMessage()    {}
 func (*TimetableClass) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{1}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{2}
 }
 func (m *TimetableClass) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -118,41 +211,425 @@ func (m *TimetableClass) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_TimetableClass proto.InternalMessageInfo
 
+type GetStudentAttendanceBriefsReq struct {
+	Cid                  string   `protobuf:"bytes,1,opt,name=cid,proto3" json:"cid,omitempty" form:"cid"`
+	Until                uint64   `protobuf:"varint,2,opt,name=until,proto3" json:"until,omitempty" form:"until"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetStudentAttendanceBriefsReq) Reset()         { *m = GetStudentAttendanceBriefsReq{} }
+func (m *GetStudentAttendanceBriefsReq) String() string { return proto.CompactTextString(m) }
+func (*GetStudentAttendanceBriefsReq) ProtoMessage()    {}
+func (*GetStudentAttendanceBriefsReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{3}
+}
+func (m *GetStudentAttendanceBriefsReq) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetStudentAttendanceBriefsReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetStudentAttendanceBriefsReq.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GetStudentAttendanceBriefsReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetStudentAttendanceBriefsReq.Merge(m, src)
+}
+func (m *GetStudentAttendanceBriefsReq) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetStudentAttendanceBriefsReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetStudentAttendanceBriefsReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetStudentAttendanceBriefsReq proto.InternalMessageInfo
+
+type GetStudentAttendanceBriefsResp struct {
+	Briefs               []*StudentAttendanceBrief `protobuf:"bytes,1,rep,name=briefs,proto3" json:"briefs,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                  `json:"-"`
+	XXX_unrecognized     []byte                    `json:"-"`
+	XXX_sizecache        int32                     `json:"-"`
+}
+
+func (m *GetStudentAttendanceBriefsResp) Reset()         { *m = GetStudentAttendanceBriefsResp{} }
+func (m *GetStudentAttendanceBriefsResp) String() string { return proto.CompactTextString(m) }
+func (*GetStudentAttendanceBriefsResp) ProtoMessage()    {}
+func (*GetStudentAttendanceBriefsResp) Descriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{4}
+}
+func (m *GetStudentAttendanceBriefsResp) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetStudentAttendanceBriefsResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetStudentAttendanceBriefsResp.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GetStudentAttendanceBriefsResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetStudentAttendanceBriefsResp.Merge(m, src)
+}
+func (m *GetStudentAttendanceBriefsResp) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetStudentAttendanceBriefsResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetStudentAttendanceBriefsResp.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetStudentAttendanceBriefsResp proto.InternalMessageInfo
+
+type StudentAttendanceBrief struct {
+	Cid                  string   `protobuf:"bytes,1,opt,name=cid,proto3" json:"cid,omitempty"`
+	Name                 string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	TimestampS           string   `protobuf:"bytes,3,opt,name=timestampS,proto3" json:"timestampS,omitempty"`
+	Total                uint32   `protobuf:"varint,4,opt,name=total,proto3" json:"total,omitempty"`
+	Attended             uint32   `protobuf:"varint,5,opt,name=attended,proto3" json:"attended,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *StudentAttendanceBrief) Reset()         { *m = StudentAttendanceBrief{} }
+func (m *StudentAttendanceBrief) String() string { return proto.CompactTextString(m) }
+func (*StudentAttendanceBrief) ProtoMessage()    {}
+func (*StudentAttendanceBrief) Descriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{5}
+}
+func (m *StudentAttendanceBrief) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *StudentAttendanceBrief) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_StudentAttendanceBrief.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *StudentAttendanceBrief) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StudentAttendanceBrief.Merge(m, src)
+}
+func (m *StudentAttendanceBrief) XXX_Size() int {
+	return m.Size()
+}
+func (m *StudentAttendanceBrief) XXX_DiscardUnknown() {
+	xxx_messageInfo_StudentAttendanceBrief.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_StudentAttendanceBrief proto.InternalMessageInfo
+
+type GetStudentAttendanceDetailReq struct {
+	Cid                  string   `protobuf:"bytes,1,opt,name=cid,proto3" json:"cid,omitempty" form:"cid" validate:"required"`
+	TimestampS           string   `protobuf:"bytes,2,opt,name=timestampS,proto3" json:"timestampS,omitempty" form:"timestampS" validate:"required"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetStudentAttendanceDetailReq) Reset()         { *m = GetStudentAttendanceDetailReq{} }
+func (m *GetStudentAttendanceDetailReq) String() string { return proto.CompactTextString(m) }
+func (*GetStudentAttendanceDetailReq) ProtoMessage()    {}
+func (*GetStudentAttendanceDetailReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{6}
+}
+func (m *GetStudentAttendanceDetailReq) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetStudentAttendanceDetailReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetStudentAttendanceDetailReq.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GetStudentAttendanceDetailReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetStudentAttendanceDetailReq.Merge(m, src)
+}
+func (m *GetStudentAttendanceDetailReq) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetStudentAttendanceDetailReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetStudentAttendanceDetailReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetStudentAttendanceDetailReq proto.InternalMessageInfo
+
+type StudentAttendanceDetail struct {
+	Cid                  string               `protobuf:"bytes,1,opt,name=cid,proto3" json:"cid,omitempty"`
+	Name                 string               `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	TimestampS           string               `protobuf:"bytes,3,opt,name=timestampS,proto3" json:"timestampS,omitempty"`
+	Total                uint32               `protobuf:"varint,4,opt,name=total,proto3" json:"total,omitempty"`
+	Attended             uint32               `protobuf:"varint,5,opt,name=attended,proto3" json:"attended,omitempty"`
+	Students             []*StudentAttendance `protobuf:"bytes,6,rep,name=students,proto3" json:"students,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
+}
+
+func (m *StudentAttendanceDetail) Reset()         { *m = StudentAttendanceDetail{} }
+func (m *StudentAttendanceDetail) String() string { return proto.CompactTextString(m) }
+func (*StudentAttendanceDetail) ProtoMessage()    {}
+func (*StudentAttendanceDetail) Descriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{7}
+}
+func (m *StudentAttendanceDetail) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *StudentAttendanceDetail) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_StudentAttendanceDetail.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *StudentAttendanceDetail) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StudentAttendanceDetail.Merge(m, src)
+}
+func (m *StudentAttendanceDetail) XXX_Size() int {
+	return m.Size()
+}
+func (m *StudentAttendanceDetail) XXX_DiscardUnknown() {
+	xxx_messageInfo_StudentAttendanceDetail.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_StudentAttendanceDetail proto.InternalMessageInfo
+
+type StudentAttendance struct {
+	Uid                  string   `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`
+	Name                 string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Status               string   `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+	Timestamp            uint64   `protobuf:"varint,4,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *StudentAttendance) Reset()         { *m = StudentAttendance{} }
+func (m *StudentAttendance) String() string { return proto.CompactTextString(m) }
+func (*StudentAttendance) ProtoMessage()    {}
+func (*StudentAttendance) Descriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{8}
+}
+func (m *StudentAttendance) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *StudentAttendance) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_StudentAttendance.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *StudentAttendance) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StudentAttendance.Merge(m, src)
+}
+func (m *StudentAttendance) XXX_Size() int {
+	return m.Size()
+}
+func (m *StudentAttendance) XXX_DiscardUnknown() {
+	xxx_messageInfo_StudentAttendance.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_StudentAttendance proto.InternalMessageInfo
+
+type UpdateStudentAttendanceReq struct {
+	Cid                  string                            `protobuf:"bytes,1,opt,name=cid,proto3" json:"cid,omitempty" form:"cid" validate:"required"`
+	TimestampS           string                            `protobuf:"bytes,2,opt,name=timestampS,proto3" json:"timestampS,omitempty" form:"timestampS" validate:"required"`
+	Status               UpdateStudentAttendanceReq_Status `protobuf:"varint,3,opt,name=status,proto3,enum=xmux.base.bridge.v3.UpdateStudentAttendanceReq_Status" json:"status,omitempty" form:"status" validate:"gte=0,lte=1"`
+	Update               []string                          `protobuf:"bytes,4,rep,name=update,proto3" json:"update,omitempty" form:"update" validate:"required"`
+	XXX_NoUnkeyedLiteral struct{}                          `json:"-"`
+	XXX_unrecognized     []byte                            `json:"-"`
+	XXX_sizecache        int32                             `json:"-"`
+}
+
+func (m *UpdateStudentAttendanceReq) Reset()         { *m = UpdateStudentAttendanceReq{} }
+func (m *UpdateStudentAttendanceReq) String() string { return proto.CompactTextString(m) }
+func (*UpdateStudentAttendanceReq) ProtoMessage()    {}
+func (*UpdateStudentAttendanceReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{9}
+}
+func (m *UpdateStudentAttendanceReq) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *UpdateStudentAttendanceReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_UpdateStudentAttendanceReq.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *UpdateStudentAttendanceReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateStudentAttendanceReq.Merge(m, src)
+}
+func (m *UpdateStudentAttendanceReq) XXX_Size() int {
+	return m.Size()
+}
+func (m *UpdateStudentAttendanceReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateStudentAttendanceReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateStudentAttendanceReq proto.InternalMessageInfo
+
+type UpdateStudentAttendanceResp struct {
+	Status               string   `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	Updated              []string `protobuf:"bytes,2,rep,name=updated,proto3" json:"updated,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *UpdateStudentAttendanceResp) Reset()         { *m = UpdateStudentAttendanceResp{} }
+func (m *UpdateStudentAttendanceResp) String() string { return proto.CompactTextString(m) }
+func (*UpdateStudentAttendanceResp) ProtoMessage()    {}
+func (*UpdateStudentAttendanceResp) Descriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{10}
+}
+func (m *UpdateStudentAttendanceResp) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *UpdateStudentAttendanceResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_UpdateStudentAttendanceResp.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *UpdateStudentAttendanceResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateStudentAttendanceResp.Merge(m, src)
+}
+func (m *UpdateStudentAttendanceResp) XXX_Size() int {
+	return m.Size()
+}
+func (m *UpdateStudentAttendanceResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateStudentAttendanceResp.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateStudentAttendanceResp proto.InternalMessageInfo
+
 func init() {
+	proto.RegisterEnum("xmux.base.bridge.v3.Info_Gender", Info_Gender_name, Info_Gender_value)
+	proto.RegisterEnum("xmux.base.bridge.v3.UpdateStudentAttendanceReq_Status", UpdateStudentAttendanceReq_Status_name, UpdateStudentAttendanceReq_Status_value)
+	proto.RegisterType((*Info)(nil), "xmux.base.bridge.v3.Info")
 	proto.RegisterType((*GetTimetableResp)(nil), "xmux.base.bridge.v3.GetTimetableResp")
 	proto.RegisterType((*TimetableClass)(nil), "xmux.base.bridge.v3.TimetableClass")
+	proto.RegisterType((*GetStudentAttendanceBriefsReq)(nil), "xmux.base.bridge.v3.GetStudentAttendanceBriefsReq")
+	proto.RegisterType((*GetStudentAttendanceBriefsResp)(nil), "xmux.base.bridge.v3.GetStudentAttendanceBriefsResp")
+	proto.RegisterType((*StudentAttendanceBrief)(nil), "xmux.base.bridge.v3.StudentAttendanceBrief")
+	proto.RegisterType((*GetStudentAttendanceDetailReq)(nil), "xmux.base.bridge.v3.GetStudentAttendanceDetailReq")
+	proto.RegisterType((*StudentAttendanceDetail)(nil), "xmux.base.bridge.v3.StudentAttendanceDetail")
+	proto.RegisterType((*StudentAttendance)(nil), "xmux.base.bridge.v3.StudentAttendance")
+	proto.RegisterType((*UpdateStudentAttendanceReq)(nil), "xmux.base.bridge.v3.UpdateStudentAttendanceReq")
+	proto.RegisterType((*UpdateStudentAttendanceResp)(nil), "xmux.base.bridge.v3.UpdateStudentAttendanceResp")
 }
 
 func init() { proto.RegisterFile("api.proto", fileDescriptor_00212fb1f9d3bf1c) }
 
 var fileDescriptor_00212fb1f9d3bf1c = []byte{
-	// 407 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x91, 0x4f, 0xae, 0xd3, 0x30,
-	0x10, 0xc6, 0x9f, 0x5f, 0xda, 0xf0, 0x62, 0xfe, 0xa8, 0x32, 0xe8, 0xc9, 0x04, 0x14, 0x55, 0x05,
-	0xa4, 0x6e, 0x70, 0xa4, 0x57, 0x89, 0x3d, 0x05, 0xc4, 0x16, 0x05, 0xd8, 0xb0, 0x73, 0x92, 0xc1,
-	0x58, 0x4a, 0xec, 0x28, 0x71, 0xaa, 0x56, 0xec, 0xb8, 0x02, 0x1b, 0xae, 0xc0, 0x4d, 0xba, 0x44,
-	0x82, 0x03, 0x40, 0xe1, 0x20, 0xc8, 0x4e, 0xda, 0x52, 0xd4, 0xee, 0xbe, 0x6f, 0xbe, 0x9f, 0x67,
-	0xac, 0x19, 0x1c, 0xf0, 0x4a, 0xb2, 0xaa, 0xd6, 0x46, 0x93, 0xdb, 0xcb, 0xb2, 0x5d, 0xb2, 0x94,
-	0x37, 0xc0, 0xd2, 0x5a, 0xe6, 0x02, 0xd8, 0x62, 0x16, 0x3e, 0x16, 0xd2, 0x7c, 0x68, 0x53, 0x96,
-	0xe9, 0x32, 0x16, 0x5a, 0xe8, 0xd8, 0xb1, 0x69, 0xfb, 0xde, 0x39, 0x67, 0x9c, 0xea, 0x7a, 0x84,
-	0xf7, 0x84, 0xd6, 0xa2, 0x80, 0x3d, 0x05, 0x65, 0x65, 0x56, 0x7d, 0x78, 0xbf, 0x0f, 0x79, 0x25,
-	0x63, 0xae, 0x94, 0x36, 0xdc, 0x48, 0xad, 0x9a, 0x2e, 0x9d, 0x7c, 0xc4, 0xa3, 0x97, 0x60, 0xde,
-	0xc8, 0x12, 0x0c, 0x4f, 0x0b, 0x48, 0xa0, 0xa9, 0xc8, 0x53, 0x1c, 0x98, 0x6d, 0x81, 0xa2, 0xb1,
-	0x37, 0xbd, 0x7e, 0xf5, 0x80, 0x1d, 0xf9, 0x26, 0xdb, 0x3d, 0x7b, 0x56, 0xf0, 0xa6, 0x49, 0xf6,
-	0xaf, 0xc8, 0x43, 0x7c, 0xb3, 0x86, 0x0c, 0x94, 0x79, 0x5b, 0xe5, 0xdc, 0xc0, 0x6b, 0x7a, 0x3e,
-	0x46, 0xd3, 0x20, 0x39, 0x2c, 0x4e, 0x7e, 0x20, 0x7c, 0xeb, 0xb0, 0x07, 0x19, 0x61, 0x2f, 0x93,
-	0x39, 0x45, 0x0e, 0xb7, 0x92, 0x10, 0x3c, 0x50, 0xbc, 0x84, 0xbe, 0x83, 0xd3, 0x24, 0xc4, 0x17,
-	0x05, 0x64, 0xa6, 0xad, 0xa1, 0xa6, 0x9e, 0xab, 0xef, 0xbc, 0xe5, 0x6b, 0xad, 0x4b, 0x3a, 0xe8,
-	0x78, 0xab, 0x6d, 0xd7, 0x9c, 0xaf, 0xe8, 0x70, 0x8c, 0xa6, 0xc3, 0xc4, 0x4a, 0x72, 0x07, 0x0f,
-	0x1b, 0xc3, 0x6b, 0x43, 0x7d, 0x87, 0x75, 0xc6, 0x72, 0xa0, 0x72, 0x7a, 0xad, 0x9b, 0x0e, 0x2a,
-	0xb7, 0x93, 0x5c, 0xf4, 0x9c, 0xaf, 0xe8, 0x45, 0x37, 0x69, 0xeb, 0xc9, 0x25, 0xf6, 0x41, 0xe5,
-	0x36, 0x09, 0x5c, 0xd2, 0xbb, 0xab, 0xaf, 0x08, 0xfb, 0x73, 0xb7, 0x24, 0x22, 0xf0, 0x8d, 0x7f,
-	0xd7, 0x4b, 0x2e, 0x59, 0x77, 0x0d, 0xb6, 0x3d, 0x15, 0x7b, 0x61, 0x4f, 0x15, 0x3e, 0x3a, 0xba,
-	0xdf, 0xff, 0x2f, 0x33, 0xa1, 0x9f, 0xbe, 0xff, 0xf9, 0x7c, 0x4e, 0xc8, 0x28, 0x5e, 0xcc, 0x62,
-	0x9e, 0xc5, 0xfb, 0x85, 0x3f, 0xc1, 0x83, 0x57, 0x52, 0x89, 0x93, 0x03, 0x4e, 0xd4, 0xe7, 0x77,
-	0xd7, 0xbf, 0xa2, 0xb3, 0xf5, 0x26, 0x42, 0xdf, 0x36, 0x11, 0xfa, 0xb9, 0x89, 0xd0, 0x97, 0xdf,
-	0xd1, 0xd9, 0x3b, 0x8f, 0x57, 0x32, 0xf5, 0x1d, 0x3a, 0xfb, 0x1b, 0x00, 0x00, 0xff, 0xff, 0xfb,
-	0xb5, 0x53, 0xfc, 0xad, 0x02, 0x00, 0x00,
+	// 962 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x55, 0x4f, 0x8f, 0xdb, 0x54,
+	0x10, 0x5f, 0xe7, 0x8f, 0x77, 0x33, 0xdd, 0x8d, 0xc2, 0x03, 0x6d, 0x5d, 0xb7, 0x24, 0xe6, 0xd1,
+	0xad, 0x82, 0x28, 0x4e, 0xc9, 0xa2, 0x0a, 0x55, 0xec, 0xa1, 0x69, 0xd1, 0xaa, 0x27, 0x90, 0x17,
+	0x2e, 0xdc, 0x5e, 0xe2, 0x89, 0x79, 0x92, 0x63, 0xbb, 0xf6, 0xf3, 0x6a, 0x57, 0xdc, 0xf8, 0x04,
+	0x48, 0x5c, 0x38, 0xa1, 0x9e, 0xe0, 0xab, 0xf4, 0x88, 0x04, 0xbd, 0x46, 0xb0, 0xf0, 0x09, 0x72,
+	0xe4, 0x84, 0xfc, 0x9e, 0x93, 0x38, 0xd4, 0x5e, 0xed, 0x9e, 0xe0, 0xe6, 0x79, 0xf3, 0xef, 0x37,
+	0xbf, 0x19, 0xcf, 0x40, 0x8b, 0x45, 0xdc, 0x8e, 0xe2, 0x50, 0x84, 0xe4, 0xcd, 0xb3, 0x59, 0x7a,
+	0x66, 0x8f, 0x59, 0x82, 0xf6, 0x38, 0xe6, 0xae, 0x87, 0xf6, 0xe9, 0xa1, 0xf9, 0x81, 0xc7, 0xc5,
+	0xd7, 0xe9, 0xd8, 0x9e, 0x84, 0xb3, 0x81, 0x17, 0x7a, 0xe1, 0x40, 0xda, 0x8e, 0xd3, 0xa9, 0x94,
+	0xa4, 0x20, 0xbf, 0x54, 0x0c, 0xf3, 0xb6, 0x17, 0x86, 0x9e, 0x8f, 0x6b, 0x2b, 0x9c, 0x45, 0xe2,
+	0x3c, 0x57, 0xde, 0xc9, 0x95, 0x2c, 0xe2, 0x03, 0x16, 0x04, 0xa1, 0x60, 0x82, 0x87, 0x41, 0xa2,
+	0xb4, 0xf4, 0x27, 0x0d, 0x1a, 0xcf, 0x82, 0x69, 0x48, 0x08, 0x34, 0x02, 0x36, 0x43, 0x43, 0xb3,
+	0xb4, 0x7e, 0xcb, 0x91, 0xdf, 0xe4, 0x63, 0xd0, 0x3d, 0x0c, 0x5c, 0x8c, 0x8d, 0x9a, 0xa5, 0xf5,
+	0xdb, 0x43, 0xcb, 0x2e, 0x01, 0x6b, 0x67, 0xee, 0xf6, 0xb1, 0xb4, 0x73, 0x72, 0x7b, 0xd2, 0x86,
+	0x1a, 0x77, 0x8d, 0xba, 0x8c, 0x55, 0xe3, 0x2e, 0xb1, 0xe0, 0x46, 0x20, 0xf3, 0x32, 0x9f, 0x8b,
+	0x73, 0xa3, 0x21, 0x15, 0xc5, 0x27, 0xda, 0x05, 0x5d, 0xc5, 0x20, 0x3b, 0xd0, 0x98, 0x31, 0x1f,
+	0x3b, 0x5b, 0x04, 0x40, 0x9f, 0xa2, 0xfc, 0xd6, 0xe8, 0x37, 0xd0, 0x39, 0x46, 0xf1, 0x05, 0x9f,
+	0xa1, 0x60, 0x63, 0x1f, 0x1d, 0x4c, 0x22, 0xf2, 0x18, 0x5a, 0x62, 0xf9, 0x60, 0x68, 0x56, 0xbd,
+	0x7f, 0x63, 0xf8, 0x6e, 0x29, 0xc4, 0x95, 0xdb, 0x13, 0x9f, 0x25, 0x89, 0xb3, 0xf6, 0x22, 0x77,
+	0x61, 0x2f, 0xc6, 0x09, 0x06, 0xe2, 0xcb, 0xc8, 0x65, 0x02, 0x4f, 0x64, 0xa5, 0x2d, 0x67, 0xf3,
+	0x91, 0xfe, 0xa6, 0x41, 0x7b, 0x33, 0x06, 0xe9, 0x40, 0x7d, 0xc2, 0xdd, 0x9c, 0xae, 0xec, 0x73,
+	0xc5, 0x60, 0xad, 0xc0, 0xa0, 0x09, 0x3b, 0x3e, 0x4e, 0x44, 0x1a, 0x63, 0x9c, 0xb3, 0xb1, 0x92,
+	0x33, 0xfb, 0x38, 0x0c, 0x67, 0x39, 0x19, 0xf2, 0x3b, 0x8b, 0xea, 0xb2, 0x73, 0xa3, 0x69, 0x69,
+	0xfd, 0xa6, 0x93, 0x7d, 0x92, 0xb7, 0xa0, 0x99, 0x08, 0x16, 0x0b, 0x43, 0x97, 0x66, 0x4a, 0xc8,
+	0xec, 0x30, 0x70, 0x8d, 0x6d, 0x95, 0x1d, 0x03, 0x37, 0xcb, 0x24, 0x55, 0x4f, 0xd9, 0xb9, 0xb1,
+	0xa3, 0x32, 0x2d, 0x65, 0xb2, 0x0f, 0x3a, 0x06, 0x6e, 0xa6, 0x69, 0x49, 0x4d, 0x2e, 0x51, 0x0e,
+	0x6f, 0x1f, 0xa3, 0x38, 0x11, 0xa9, 0x8b, 0x81, 0x78, 0x2c, 0x04, 0x06, 0x2e, 0x0b, 0x26, 0x38,
+	0x8a, 0x39, 0x4e, 0x13, 0x07, 0x9f, 0x13, 0xab, 0x50, 0xe4, 0xa8, 0xbd, 0x98, 0xf7, 0x60, 0x1a,
+	0xc6, 0xb3, 0x47, 0x74, 0xc2, 0x5d, 0xaa, 0x8a, 0xbe, 0x07, 0xcd, 0x34, 0x10, 0xdc, 0x97, 0x55,
+	0x37, 0x46, 0x9d, 0xc5, 0xbc, 0xb7, 0xab, 0x6c, 0xe4, 0x33, 0x75, 0x94, 0x9a, 0x22, 0x74, 0x2f,
+	0x4b, 0x95, 0x44, 0xe4, 0x09, 0xe8, 0x63, 0x29, 0xe5, 0x9d, 0x7c, 0xbf, 0xb4, 0x93, 0xe5, 0x11,
+	0x9c, 0xdc, 0x95, 0x7e, 0xa7, 0xc1, 0x7e, 0xb9, 0xc9, 0x15, 0x1b, 0xd6, 0x05, 0xc8, 0x86, 0x23,
+	0x11, 0x6c, 0x16, 0x9d, 0xe4, 0x2d, 0x2b, 0xbc, 0x64, 0xed, 0x10, 0xa1, 0x60, 0xbe, 0xec, 0xda,
+	0x9e, 0xa3, 0x84, 0x8c, 0x7c, 0x26, 0xd3, 0xa1, 0x2b, 0x7b, 0xb7, 0xe7, 0xac, 0x64, 0xfa, 0x42,
+	0x2b, 0x67, 0xf9, 0x29, 0x0a, 0xc6, 0xfd, 0x8c, 0xe5, 0x8f, 0x8a, 0x2c, 0xd3, 0xc5, 0xbc, 0xd7,
+	0x5d, 0xb3, 0x6c, 0x9d, 0x32, 0x9f, 0x67, 0x43, 0xf8, 0x88, 0xc6, 0xf8, 0x3c, 0xe5, 0x31, 0x2e,
+	0x99, 0x7f, 0xb6, 0x81, 0x54, 0xd6, 0x30, 0x7a, 0x6f, 0x31, 0xef, 0x1d, 0x28, 0xe7, 0xb5, 0xae,
+	0x3c, 0x46, 0xc1, 0x99, 0xbe, 0xd2, 0xe0, 0x66, 0x05, 0xbe, 0xff, 0x8a, 0x36, 0x32, 0xca, 0xe6,
+	0x59, 0x42, 0x4a, 0x0c, 0x5d, 0x0e, 0xc4, 0xbd, 0xab, 0x0d, 0x84, 0xb3, 0xf2, 0xa3, 0x21, 0xbc,
+	0xf1, 0x9a, 0x3a, 0x2b, 0x28, 0x5d, 0x17, 0x94, 0x56, 0x14, 0xb4, 0x0f, 0x7a, 0x22, 0x98, 0x48,
+	0x93, 0xbc, 0x98, 0x5c, 0x22, 0x77, 0xd4, 0xca, 0x91, 0x65, 0xc9, 0x62, 0x1a, 0xce, 0xfa, 0x81,
+	0xfe, 0x5d, 0x03, 0x33, 0xdf, 0x19, 0xaf, 0xc1, 0xfa, 0x1f, 0x34, 0x9a, 0x9c, 0x6d, 0x54, 0xd5,
+	0x1e, 0x3e, 0x2c, 0xa5, 0xb4, 0xba, 0x02, 0xfb, 0x44, 0x7a, 0x8f, 0xfa, 0x8b, 0x79, 0xef, 0xae,
+	0x4a, 0xaf, 0xe2, 0x15, 0x53, 0x7b, 0x02, 0x8f, 0x1e, 0xdc, 0xf7, 0x05, 0x1e, 0x7d, 0x48, 0x57,
+	0xbc, 0x1d, 0x81, 0x9e, 0xca, 0xb0, 0x46, 0xc3, 0xaa, 0xf7, 0x5b, 0xa3, 0x83, 0xc5, 0xbc, 0xf7,
+	0x4e, 0xbe, 0x28, 0xe4, 0x7b, 0x39, 0xf8, 0xdc, 0x89, 0x52, 0xd0, 0x55, 0x6a, 0x79, 0x13, 0x18,
+	0xf7, 0xd1, 0xed, 0x6c, 0x91, 0xdd, 0xf5, 0xfc, 0x74, 0x34, 0xfa, 0x19, 0xdc, 0xae, 0x44, 0x9e,
+	0x44, 0x85, 0x8e, 0x6a, 0x1b, 0x1d, 0x35, 0x60, 0x5b, 0x25, 0x71, 0x8d, 0x5a, 0x06, 0xcd, 0x59,
+	0x8a, 0xc3, 0x57, 0x4d, 0xd0, 0x47, 0x92, 0x15, 0xf2, 0x09, 0x6c, 0x1f, 0xa3, 0x90, 0x87, 0x72,
+	0xdf, 0x56, 0x07, 0xd5, 0x5e, 0x5e, 0x5b, 0xfb, 0xd3, 0xec, 0xda, 0x9a, 0xb7, 0x2a, 0x8f, 0x23,
+	0xf1, 0x60, 0xb7, 0x78, 0xbb, 0x2a, 0x43, 0x1c, 0x94, 0x86, 0xf8, 0xf7, 0xd9, 0xa3, 0xc6, 0xb7,
+	0xbf, 0xfe, 0xf5, 0x7d, 0x8d, 0x90, 0xce, 0xe0, 0xf4, 0x70, 0xc0, 0x26, 0x83, 0xf5, 0x35, 0xfb,
+	0x59, 0x03, 0xb3, 0x7a, 0xcd, 0x92, 0x61, 0x55, 0xfc, 0xea, 0x13, 0x60, 0x1e, 0x5e, 0xdb, 0x27,
+	0x89, 0xa8, 0x25, 0x11, 0x9a, 0xc4, 0xc8, 0x11, 0xb2, 0x95, 0xd1, 0x40, 0x2d, 0x6a, 0xf2, 0xa2,
+	0x02, 0x69, 0xbe, 0x75, 0xae, 0x8e, 0x74, 0xb5, 0x46, 0xcd, 0xfb, 0x57, 0xdb, 0x0f, 0xca, 0xe1,
+	0x32, 0x88, 0xae, 0xc2, 0xf0, 0xa3, 0x06, 0x37, 0x2b, 0x06, 0x8a, 0x0c, 0xae, 0xf9, 0xe3, 0x98,
+	0x0f, 0xae, 0xe7, 0xb0, 0xe6, 0x90, 0x96, 0x00, 0x54, 0x03, 0x4a, 0x1e, 0x42, 0xe3, 0x73, 0x1e,
+	0x78, 0x95, 0xe3, 0x54, 0xf1, 0x3e, 0xba, 0xf5, 0xf2, 0x8f, 0xee, 0xd6, 0xcb, 0x8b, 0xae, 0xf6,
+	0xcb, 0x45, 0x57, 0xfb, 0xfd, 0xa2, 0xab, 0xfd, 0xf0, 0x67, 0x77, 0xeb, 0xab, 0x3a, 0x8b, 0xf8,
+	0x58, 0x97, 0xa6, 0x87, 0xff, 0x04, 0x00, 0x00, 0xff, 0xff, 0xa7, 0xc9, 0x22, 0x5d, 0xa1, 0x0a,
+	0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -167,7 +644,15 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type BridgeClient interface {
+	GetInfo(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*Info, error)
+	// GetTimetable according to uid.
 	GetTimetable(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetTimetableResp, error)
+	// GetStudentAttendanceBriefs for lecturer.
+	GetStudentAttendanceBriefs(ctx context.Context, in *GetStudentAttendanceBriefsReq, opts ...grpc.CallOption) (*GetStudentAttendanceBriefsResp, error)
+	// GetStudentAttendanceDetail for lecturer.
+	GetStudentAttendanceDetail(ctx context.Context, in *GetStudentAttendanceDetailReq, opts ...grpc.CallOption) (*StudentAttendanceDetail, error)
+	// UpdateStudentAttendance for lecturer.
+	UpdateStudentAttendance(ctx context.Context, in *UpdateStudentAttendanceReq, opts ...grpc.CallOption) (*UpdateStudentAttendanceResp, error)
 	Ping(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
@@ -179,9 +664,45 @@ func NewBridgeClient(cc *grpc.ClientConn) BridgeClient {
 	return &bridgeClient{cc}
 }
 
+func (c *bridgeClient) GetInfo(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*Info, error) {
+	out := new(Info)
+	err := c.cc.Invoke(ctx, "/xmux.base.bridge.v3.Bridge/GetInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *bridgeClient) GetTimetable(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetTimetableResp, error) {
 	out := new(GetTimetableResp)
 	err := c.cc.Invoke(ctx, "/xmux.base.bridge.v3.Bridge/GetTimetable", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bridgeClient) GetStudentAttendanceBriefs(ctx context.Context, in *GetStudentAttendanceBriefsReq, opts ...grpc.CallOption) (*GetStudentAttendanceBriefsResp, error) {
+	out := new(GetStudentAttendanceBriefsResp)
+	err := c.cc.Invoke(ctx, "/xmux.base.bridge.v3.Bridge/GetStudentAttendanceBriefs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bridgeClient) GetStudentAttendanceDetail(ctx context.Context, in *GetStudentAttendanceDetailReq, opts ...grpc.CallOption) (*StudentAttendanceDetail, error) {
+	out := new(StudentAttendanceDetail)
+	err := c.cc.Invoke(ctx, "/xmux.base.bridge.v3.Bridge/GetStudentAttendanceDetail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bridgeClient) UpdateStudentAttendance(ctx context.Context, in *UpdateStudentAttendanceReq, opts ...grpc.CallOption) (*UpdateStudentAttendanceResp, error) {
+	out := new(UpdateStudentAttendanceResp)
+	err := c.cc.Invoke(ctx, "/xmux.base.bridge.v3.Bridge/UpdateStudentAttendance", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -199,7 +720,15 @@ func (c *bridgeClient) Ping(ctx context.Context, in *empty.Empty, opts ...grpc.C
 
 // BridgeServer is the server API for Bridge service.
 type BridgeServer interface {
+	GetInfo(context.Context, *empty.Empty) (*Info, error)
+	// GetTimetable according to uid.
 	GetTimetable(context.Context, *empty.Empty) (*GetTimetableResp, error)
+	// GetStudentAttendanceBriefs for lecturer.
+	GetStudentAttendanceBriefs(context.Context, *GetStudentAttendanceBriefsReq) (*GetStudentAttendanceBriefsResp, error)
+	// GetStudentAttendanceDetail for lecturer.
+	GetStudentAttendanceDetail(context.Context, *GetStudentAttendanceDetailReq) (*StudentAttendanceDetail, error)
+	// UpdateStudentAttendance for lecturer.
+	UpdateStudentAttendance(context.Context, *UpdateStudentAttendanceReq) (*UpdateStudentAttendanceResp, error)
 	Ping(context.Context, *empty.Empty) (*empty.Empty, error)
 }
 
@@ -207,8 +736,20 @@ type BridgeServer interface {
 type UnimplementedBridgeServer struct {
 }
 
+func (*UnimplementedBridgeServer) GetInfo(ctx context.Context, req *empty.Empty) (*Info, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInfo not implemented")
+}
 func (*UnimplementedBridgeServer) GetTimetable(ctx context.Context, req *empty.Empty) (*GetTimetableResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTimetable not implemented")
+}
+func (*UnimplementedBridgeServer) GetStudentAttendanceBriefs(ctx context.Context, req *GetStudentAttendanceBriefsReq) (*GetStudentAttendanceBriefsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStudentAttendanceBriefs not implemented")
+}
+func (*UnimplementedBridgeServer) GetStudentAttendanceDetail(ctx context.Context, req *GetStudentAttendanceDetailReq) (*StudentAttendanceDetail, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStudentAttendanceDetail not implemented")
+}
+func (*UnimplementedBridgeServer) UpdateStudentAttendance(ctx context.Context, req *UpdateStudentAttendanceReq) (*UpdateStudentAttendanceResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateStudentAttendance not implemented")
 }
 func (*UnimplementedBridgeServer) Ping(ctx context.Context, req *empty.Empty) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
@@ -216,6 +757,24 @@ func (*UnimplementedBridgeServer) Ping(ctx context.Context, req *empty.Empty) (*
 
 func RegisterBridgeServer(s *grpc.Server, srv BridgeServer) {
 	s.RegisterService(&_Bridge_serviceDesc, srv)
+}
+
+func _Bridge_GetInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(empty.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BridgeServer).GetInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/xmux.base.bridge.v3.Bridge/GetInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BridgeServer).GetInfo(ctx, req.(*empty.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Bridge_GetTimetable_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -232,6 +791,60 @@ func _Bridge_GetTimetable_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BridgeServer).GetTimetable(ctx, req.(*empty.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Bridge_GetStudentAttendanceBriefs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStudentAttendanceBriefsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BridgeServer).GetStudentAttendanceBriefs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/xmux.base.bridge.v3.Bridge/GetStudentAttendanceBriefs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BridgeServer).GetStudentAttendanceBriefs(ctx, req.(*GetStudentAttendanceBriefsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Bridge_GetStudentAttendanceDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStudentAttendanceDetailReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BridgeServer).GetStudentAttendanceDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/xmux.base.bridge.v3.Bridge/GetStudentAttendanceDetail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BridgeServer).GetStudentAttendanceDetail(ctx, req.(*GetStudentAttendanceDetailReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Bridge_UpdateStudentAttendance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateStudentAttendanceReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BridgeServer).UpdateStudentAttendance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/xmux.base.bridge.v3.Bridge/UpdateStudentAttendance",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BridgeServer).UpdateStudentAttendance(ctx, req.(*UpdateStudentAttendanceReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -259,8 +872,24 @@ var _Bridge_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*BridgeServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "GetInfo",
+			Handler:    _Bridge_GetInfo_Handler,
+		},
+		{
 			MethodName: "GetTimetable",
 			Handler:    _Bridge_GetTimetable_Handler,
+		},
+		{
+			MethodName: "GetStudentAttendanceBriefs",
+			Handler:    _Bridge_GetStudentAttendanceBriefs_Handler,
+		},
+		{
+			MethodName: "GetStudentAttendanceDetail",
+			Handler:    _Bridge_GetStudentAttendanceDetail_Handler,
+		},
+		{
+			MethodName: "UpdateStudentAttendance",
+			Handler:    _Bridge_UpdateStudentAttendance_Handler,
 		},
 		{
 			MethodName: "Ping",
@@ -269,6 +898,59 @@ var _Bridge_serviceDesc = grpc.ServiceDesc{
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "api.proto",
+}
+
+func (m *Info) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Info) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Info) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Nationality) > 0 {
+		i -= len(m.Nationality)
+		copy(dAtA[i:], m.Nationality)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.Nationality)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.Id) > 0 {
+		i -= len(m.Id)
+		copy(dAtA[i:], m.Id)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.Id)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.Gender != 0 {
+		i = encodeVarintApi(dAtA, i, uint64(m.Gender))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
 }
 
 func (m *GetTimetableResp) Marshal() (dAtA []byte, err error) {
@@ -407,6 +1089,408 @@ func (m *TimetableClass) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *GetStudentAttendanceBriefsReq) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetStudentAttendanceBriefsReq) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetStudentAttendanceBriefsReq) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if m.Until != 0 {
+		i = encodeVarintApi(dAtA, i, uint64(m.Until))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Cid) > 0 {
+		i -= len(m.Cid)
+		copy(dAtA[i:], m.Cid)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.Cid)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *GetStudentAttendanceBriefsResp) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetStudentAttendanceBriefsResp) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetStudentAttendanceBriefsResp) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Briefs) > 0 {
+		for iNdEx := len(m.Briefs) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Briefs[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintApi(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *StudentAttendanceBrief) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *StudentAttendanceBrief) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *StudentAttendanceBrief) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if m.Attended != 0 {
+		i = encodeVarintApi(dAtA, i, uint64(m.Attended))
+		i--
+		dAtA[i] = 0x28
+	}
+	if m.Total != 0 {
+		i = encodeVarintApi(dAtA, i, uint64(m.Total))
+		i--
+		dAtA[i] = 0x20
+	}
+	if len(m.TimestampS) > 0 {
+		i -= len(m.TimestampS)
+		copy(dAtA[i:], m.TimestampS)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.TimestampS)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Cid) > 0 {
+		i -= len(m.Cid)
+		copy(dAtA[i:], m.Cid)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.Cid)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *GetStudentAttendanceDetailReq) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetStudentAttendanceDetailReq) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetStudentAttendanceDetailReq) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.TimestampS) > 0 {
+		i -= len(m.TimestampS)
+		copy(dAtA[i:], m.TimestampS)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.TimestampS)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Cid) > 0 {
+		i -= len(m.Cid)
+		copy(dAtA[i:], m.Cid)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.Cid)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *StudentAttendanceDetail) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *StudentAttendanceDetail) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *StudentAttendanceDetail) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Students) > 0 {
+		for iNdEx := len(m.Students) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Students[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintApi(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x32
+		}
+	}
+	if m.Attended != 0 {
+		i = encodeVarintApi(dAtA, i, uint64(m.Attended))
+		i--
+		dAtA[i] = 0x28
+	}
+	if m.Total != 0 {
+		i = encodeVarintApi(dAtA, i, uint64(m.Total))
+		i--
+		dAtA[i] = 0x20
+	}
+	if len(m.TimestampS) > 0 {
+		i -= len(m.TimestampS)
+		copy(dAtA[i:], m.TimestampS)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.TimestampS)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Cid) > 0 {
+		i -= len(m.Cid)
+		copy(dAtA[i:], m.Cid)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.Cid)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *StudentAttendance) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *StudentAttendance) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *StudentAttendance) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if m.Timestamp != 0 {
+		i = encodeVarintApi(dAtA, i, uint64(m.Timestamp))
+		i--
+		dAtA[i] = 0x20
+	}
+	if len(m.Status) > 0 {
+		i -= len(m.Status)
+		copy(dAtA[i:], m.Status)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.Status)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Uid) > 0 {
+		i -= len(m.Uid)
+		copy(dAtA[i:], m.Uid)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.Uid)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *UpdateStudentAttendanceReq) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *UpdateStudentAttendanceReq) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *UpdateStudentAttendanceReq) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Update) > 0 {
+		for iNdEx := len(m.Update) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.Update[iNdEx])
+			copy(dAtA[i:], m.Update[iNdEx])
+			i = encodeVarintApi(dAtA, i, uint64(len(m.Update[iNdEx])))
+			i--
+			dAtA[i] = 0x22
+		}
+	}
+	if m.Status != 0 {
+		i = encodeVarintApi(dAtA, i, uint64(m.Status))
+		i--
+		dAtA[i] = 0x18
+	}
+	if len(m.TimestampS) > 0 {
+		i -= len(m.TimestampS)
+		copy(dAtA[i:], m.TimestampS)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.TimestampS)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Cid) > 0 {
+		i -= len(m.Cid)
+		copy(dAtA[i:], m.Cid)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.Cid)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *UpdateStudentAttendanceResp) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *UpdateStudentAttendanceResp) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *UpdateStudentAttendanceResp) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Updated) > 0 {
+		for iNdEx := len(m.Updated) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.Updated[iNdEx])
+			copy(dAtA[i:], m.Updated[iNdEx])
+			i = encodeVarintApi(dAtA, i, uint64(len(m.Updated[iNdEx])))
+			i--
+			dAtA[i] = 0x12
+		}
+	}
+	if len(m.Status) > 0 {
+		i -= len(m.Status)
+		copy(dAtA[i:], m.Status)
+		i = encodeVarintApi(dAtA, i, uint64(len(m.Status)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintApi(dAtA []byte, offset int, v uint64) int {
 	offset -= sovApi(v)
 	base := offset
@@ -418,6 +1502,33 @@ func encodeVarintApi(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+func (m *Info) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	if m.Gender != 0 {
+		n += 1 + sovApi(uint64(m.Gender))
+	}
+	l = len(m.Id)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	l = len(m.Nationality)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
 func (m *GetTimetableResp) Size() (n int) {
 	if m == nil {
 		return 0
@@ -487,11 +1598,381 @@ func (m *TimetableClass) Size() (n int) {
 	return n
 }
 
+func (m *GetStudentAttendanceBriefsReq) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Cid)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	if m.Until != 0 {
+		n += 1 + sovApi(uint64(m.Until))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *GetStudentAttendanceBriefsResp) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Briefs) > 0 {
+		for _, e := range m.Briefs {
+			l = e.Size()
+			n += 1 + l + sovApi(uint64(l))
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *StudentAttendanceBrief) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Cid)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	l = len(m.TimestampS)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	if m.Total != 0 {
+		n += 1 + sovApi(uint64(m.Total))
+	}
+	if m.Attended != 0 {
+		n += 1 + sovApi(uint64(m.Attended))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *GetStudentAttendanceDetailReq) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Cid)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	l = len(m.TimestampS)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *StudentAttendanceDetail) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Cid)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	l = len(m.TimestampS)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	if m.Total != 0 {
+		n += 1 + sovApi(uint64(m.Total))
+	}
+	if m.Attended != 0 {
+		n += 1 + sovApi(uint64(m.Attended))
+	}
+	if len(m.Students) > 0 {
+		for _, e := range m.Students {
+			l = e.Size()
+			n += 1 + l + sovApi(uint64(l))
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *StudentAttendance) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Uid)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	l = len(m.Status)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	if m.Timestamp != 0 {
+		n += 1 + sovApi(uint64(m.Timestamp))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *UpdateStudentAttendanceReq) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Cid)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	l = len(m.TimestampS)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	if m.Status != 0 {
+		n += 1 + sovApi(uint64(m.Status))
+	}
+	if len(m.Update) > 0 {
+		for _, s := range m.Update {
+			l = len(s)
+			n += 1 + l + sovApi(uint64(l))
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *UpdateStudentAttendanceResp) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Status)
+	if l > 0 {
+		n += 1 + l + sovApi(uint64(l))
+	}
+	if len(m.Updated) > 0 {
+		for _, s := range m.Updated {
+			l = len(s)
+			n += 1 + l + sovApi(uint64(l))
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
 func sovApi(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozApi(x uint64) (n int) {
 	return sovApi(uint64((x << 1) ^ uint64((int64(x) >> 63))))
+}
+func (m *Info) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowApi
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Info: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Info: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Gender", wireType)
+			}
+			m.Gender = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Gender |= Info_Gender(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Id = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Nationality", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Nationality = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipApi(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
 }
 func (m *GetTimetableResp) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
@@ -916,6 +2397,1183 @@ func (m *TimetableClass) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.EndDay = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipApi(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetStudentAttendanceBriefsReq) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowApi
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetStudentAttendanceBriefsReq: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetStudentAttendanceBriefsReq: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cid", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Cid = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Until", wireType)
+			}
+			m.Until = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Until |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipApi(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetStudentAttendanceBriefsResp) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowApi
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetStudentAttendanceBriefsResp: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetStudentAttendanceBriefsResp: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Briefs", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Briefs = append(m.Briefs, &StudentAttendanceBrief{})
+			if err := m.Briefs[len(m.Briefs)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipApi(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *StudentAttendanceBrief) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowApi
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: StudentAttendanceBrief: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: StudentAttendanceBrief: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cid", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Cid = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TimestampS", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.TimestampS = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Total", wireType)
+			}
+			m.Total = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Total |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Attended", wireType)
+			}
+			m.Attended = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Attended |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipApi(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetStudentAttendanceDetailReq) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowApi
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetStudentAttendanceDetailReq: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetStudentAttendanceDetailReq: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cid", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Cid = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TimestampS", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.TimestampS = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipApi(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *StudentAttendanceDetail) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowApi
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: StudentAttendanceDetail: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: StudentAttendanceDetail: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cid", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Cid = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TimestampS", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.TimestampS = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Total", wireType)
+			}
+			m.Total = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Total |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Attended", wireType)
+			}
+			m.Attended = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Attended |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Students", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Students = append(m.Students, &StudentAttendance{})
+			if err := m.Students[len(m.Students)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipApi(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *StudentAttendance) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowApi
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: StudentAttendance: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: StudentAttendance: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Uid", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Uid = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Status = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Timestamp", wireType)
+			}
+			m.Timestamp = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Timestamp |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipApi(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *UpdateStudentAttendanceReq) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowApi
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: UpdateStudentAttendanceReq: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: UpdateStudentAttendanceReq: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cid", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Cid = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TimestampS", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.TimestampS = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+			}
+			m.Status = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Status |= UpdateStudentAttendanceReq_Status(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Update", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Update = append(m.Update, string(dAtA[iNdEx:postIndex]))
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipApi(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *UpdateStudentAttendanceResp) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowApi
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: UpdateStudentAttendanceResp: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: UpdateStudentAttendanceResp: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Status = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Updated", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Updated = append(m.Updated, string(dAtA[iNdEx:postIndex]))
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
