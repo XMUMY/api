@@ -27,6 +27,30 @@ func TestExtractAuthorizationFromContext(t *testing.T) {
 	})
 }
 
+func TestExtractBasicAuthorizationFromContext(t *testing.T) {
+	Convey("extract basic authorization from context", t, func() {
+		encoded := base64.StdEncoding.EncodeToString(
+			[]byte(fmt.Sprintf("%s:%s",
+				os.Getenv("TEST_CAMPUS_ID"),
+				os.Getenv("TEST_CAMPUS_ID_PASSWORD"),
+			)),
+		)
+		ctx := metadata.NewIncomingContext(
+			context.TODO(),
+			metadata.New(map[string]string{
+				"authorization": "basic " + encoded,
+			}),
+		)
+
+		uid, password, err := ExtractBasicAuthorizationFromContext(ctx)
+		Convey("correct basic authorization extracted", func() {
+			So(uid, ShouldEqual, os.Getenv("TEST_CAMPUS_ID"))
+			So(password, ShouldEqual, os.Getenv("TEST_CAMPUS_ID_PASSWORD"))
+			So(err, ShouldBeNil)
+		})
+	})
+}
+
 func TestAuthenticateWithCampusIdPassword(t *testing.T) {
 	SkipConvey("authenticate with campus id and password", t, func() {
 		encoded := base64.StdEncoding.EncodeToString(
@@ -42,9 +66,11 @@ func TestAuthenticateWithCampusIdPassword(t *testing.T) {
 			}),
 		)
 
-		resp := AuthenticateWithCampusIdPassword(ctx)
+		resp, password, err := AuthenticateWithCampusIdPassword(ctx)
 		Convey("authenticated successfully", func() {
 			So(resp, ShouldNotBeNil)
+			So(password, ShouldEqual, os.Getenv("TEST_CAMPUS_ID_PASSWORD"))
+			So(err, ShouldBeNil)
 		})
 	})
 }
