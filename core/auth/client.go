@@ -5,15 +5,15 @@ import (
 	"encoding/base64"
 	"strings"
 
-	"github.com/micro/go-micro/v2"
+	"github.com/micro/go-micro/v2/client"
 	"google.golang.org/grpc/metadata"
 )
 
 var svc AuthService
 
 // InitAuthService from current service client.
-func InitAuthService(from micro.Service) {
-	svc = NewAuthService(SvcName, from.Client())
+func InitAuthService(client client.Client) {
+	svc = NewAuthService(SvcName, client)
 }
 
 func extractAuthorizationFromContext(ctx context.Context) string {
@@ -35,7 +35,7 @@ func ExtractBasicAuthorizationFromContext(ctx context.Context) (username string,
 	authorization := extractAuthorizationFromContext(ctx)
 
 	split := strings.SplitN(authorization, " ", 2)
-	if !strings.HasPrefix(strings.ToLower(split[0]), "basic") {
+	if len(split) != 2 || !strings.HasPrefix(strings.ToLower(split[0]), "basic") {
 		err = InvalidCredentialError
 		return
 	}
@@ -57,6 +57,20 @@ func ExtractBasicAuthorizationFromContext(ctx context.Context) (username string,
 	return
 }
 
+// ExtractBearerAuthorizationFromContext and return bearer token.
+func ExtractBearerAuthorizationFromContext(ctx context.Context) (token string, err error) {
+	authorization := extractAuthorizationFromContext(ctx)
+
+	split := strings.SplitN(authorization, " ", 2)
+	if len(split) != 2 || !strings.HasPrefix(strings.ToLower(split[0]), "bearer") {
+		err = InvalidCredentialError
+		return
+	}
+
+	token = split[1]
+	return
+}
+
 // AuthenticateWithCampusIdPassword and return non-nil resp if authentication success.
 func AuthenticateWithCampusIdPassword(ctx context.Context) (resp *AuthUserResp, password string, err error) {
 	var uid string
@@ -72,6 +86,21 @@ func AuthenticateWithCampusIdPassword(ctx context.Context) (resp *AuthUserResp, 
 				Password: password,
 			},
 		},
+	})
+
+	return
+}
+
+// AuthenticateWithFirebaseIdToken and return non-nil resp if authentication success.
+func AuthenticateWithFirebaseIdToken(ctx context.Context) (resp *AuthUserResp, err error) {
+	var token string
+	token, err = ExtractBearerAuthorizationFromContext(ctx)
+	if err != nil {
+		return
+	}
+
+	resp, err = svc.AuthUser(ctx, &AuthUserReq{
+		Credential: &AuthUserReq_FirebaseIdToken{FirebaseIdToken: token},
 	})
 
 	return

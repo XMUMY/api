@@ -51,6 +51,23 @@ func TestExtractBasicAuthorizationFromContext(t *testing.T) {
 	})
 }
 
+func TestExtractBearerAuthorizationFromContext(t *testing.T) {
+	Convey("extract bearer authorization from context", t, func() {
+		ctx := metadata.NewIncomingContext(
+			context.TODO(),
+			metadata.New(map[string]string{
+				"authorization": "bearer SOME.TOKEN",
+			}),
+		)
+
+		token, err := ExtractBearerAuthorizationFromContext(ctx)
+		Convey("correct bearer authorization extracted", func() {
+			So(token, ShouldEqual, "SOME.TOKEN")
+			So(err, ShouldBeNil)
+		})
+	})
+}
+
 func TestAuthenticateWithCampusIdPassword(t *testing.T) {
 	SkipConvey("authenticate with campus id and password", t, func() {
 		encoded := base64.StdEncoding.EncodeToString(
