@@ -1,3 +1,3 @@
 package aaos
 
-const SvcName = "xmux.core.aaos.v4"
+const SvcID = "xmux.core.aaos.v4"

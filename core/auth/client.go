@@ -13,7 +13,7 @@ var svc AuthService
 
 // InitAuthService from current service client.
 func InitAuthService(client client.Client) {
-	svc = NewAuthService(SvcName, client)
+	svc = NewAuthService(SvcID, client)
 }
 
 func extractAuthorizationFromContext(ctx context.Context) string {
