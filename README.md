@@ -15,3 +15,4 @@ These services are internal and can only be accessed by other XMUS services.
 These services are public and can be accessed by clients.
 
 - core/aaos: Bridge to adapt Academic Affair Online System.
+- core/user: User management service.

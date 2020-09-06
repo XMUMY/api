@@ -46,6 +46,7 @@ message Timetable {
     }
 
     repeated Class classes = 1;
+    google.protobuf.Timestamp lastUpdate = 2;
 }
 
 message Courses {
@@ -67,7 +68,9 @@ message Exams {
         string type = 6;
         string status = 7;
     }
+
     repeated Exam exams = 1;
+    google.protobuf.Timestamp lastUpdate = 2;
 }
 
 message Transcript {
