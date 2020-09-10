@@ -1,3 +1,3 @@
 package user
 
-const SvcName = "xmux.core.user.v4"
+const SvcID = "xmux.core.user.v4"
