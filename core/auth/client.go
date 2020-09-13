@@ -105,3 +105,44 @@ func AuthenticateWithFirebaseIdToken(ctx context.Context) (resp *AuthUserResp, e
 
 	return
 }
+
+// TryAuthenticate with firebase ID token and campus ID password.
+func TryAuthenticate(ctx context.Context) (resp *AuthUserResp, err error) {
+	token, err := ExtractBearerAuthorizationFromContext(ctx)
+	if err == nil && token != "" {
+		resp, err = svc.AuthUser(ctx, &AuthUserReq{
+			Credential: &AuthUserReq_FirebaseIdToken{FirebaseIdToken: token},
+		})
+		return
+	}
+
+	uid, password, err := ExtractBasicAuthorizationFromContext(ctx)
+	if err == nil && uid != "" && password != "" {
+		resp, err = svc.AuthUser(ctx, &AuthUserReq{
+			Credential: &AuthUserReq_CampusIdPassword{
+				CampusIdPassword: &CampusIdPasswordCredential{
+					CampusId: strings.ToLower(uid),
+					Password: password,
+				},
+			},
+		})
+		return
+	}
+
+	return
+}
+
+// RequireOnePermission returns true if user has one of permissions for resource.
+func RequireOnePermission(user *AuthUserResp, resource string, permissions ...string) bool {
+	if perm, ok := user.Permissions[resource]; ok {
+		for _, action := range perm.Actions {
+			for _, required := range permissions {
+				if action == required {
+					return true
+				}
+			}
+		}
+	}
+
+	return false
+}

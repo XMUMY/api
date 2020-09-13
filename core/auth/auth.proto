@@ -5,33 +5,38 @@ package xmux.core.auth.v4;
 option go_package = "auth";
 
 service Auth {
-	// Authenticate user with credential.
-	rpc AuthUser(AuthUserReq) returns (AuthUserResp);
+    // Authenticate user with credential.
+    rpc AuthUser (AuthUserReq) returns (AuthUserResp);
 }
 
 // Credential for authenticating user with campus ID and password.
 message CampusIdPasswordCredential {
-	string campusId = 1;
-	string password = 2;
+    string campusId = 1;
+    string password = 2;
 }
 
 message AuthUserReq {
-	oneof credential {
-		// Authenticate user with campus ID and password.
-		CampusIdPasswordCredential campusIdPassword = 1;
+    oneof credential {
+        // Authenticate user with campus ID and password.
+        CampusIdPasswordCredential campusIdPassword = 1;
 
-		// Authenticate user with firebase ID token.
-		string firebaseIdToken = 2;
-	}
+        // Authenticate user with firebase ID token.
+        string firebaseIdToken = 2;
+    }
 }
 
 enum CampusRole {
-	none = 0;
-	student = 1;
-	teacher = 2;
+    none = 0;
+    student = 1;
+    teacher = 2;
 }
 
 message AuthUserResp {
-	string uid = 1;
-	CampusRole campusRole = 2;
+    string uid = 1;
+    CampusRole campusRole = 2;
+    map<string, PermissionSpec> permissions = 3;
+}
+
+message PermissionSpec {
+    repeated string actions = 1;
 }
