@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package xmux.core.aaso.v4;
+
+option go_package = "git.xdea.xyz/XMUS/aaos/api/aaos/v4;v4";
+
+enum ErrorReason {
+  AC_SERVICE_UNAVAILABLE = 0;
+  AC_WRONG_PASSWORD = 1;
+}

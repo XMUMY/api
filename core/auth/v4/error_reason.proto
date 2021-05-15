@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package xmux.core.auth.v4;
+
+option go_package = "git.xdea.xyz/XMUS/auth/auth/v4;v4";
+
+enum ErrorReason {
+  UNKNOWN = 0;
+  INVALID_CREDENTIAL = 1;
+  INVALID_CAMPUS_ID = 2;
+  INVALID_PASSWORD = 3;
+  WRONG_PASSWORD = 4;
+  LDAP_SERVER_DOWN = 5;
+  WRONG_FIREBASE_ID_TOKEN = 6;
+}

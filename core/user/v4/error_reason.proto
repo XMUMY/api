@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package xmux.core.user.v4;
+
+option go_package = "git.xdea.xyz/XMUS/user/api/user/v4;v4";
+
+enum ErrorReason {
+  USER_NOT_FOUND = 0;
+  NO_CUSTOM_TOKEN = 1;
+  NEED_REGISTER = 2;
+}

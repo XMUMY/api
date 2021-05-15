@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package xmux.core.user.v4;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "git.xdea.xyz/XMUS/user/api/user/v4;v4";
+
+service User {
+  // Login with basic authorization.
+  // Will try to register during first login.
+  // Returns error if information not adequate to create user.
+  rpc Login (.google.protobuf.Empty) returns (LoginResp);
+
+  // Register and login with provided information.
+  rpc Register (RegisterReq) returns (LoginResp);
+
+  // GetProfile of specified user.
+  rpc GetProfile (GetProfileReq) returns (Profile);
+
+  // RefreshDevice push key and last seen.
+  rpc RefreshDevice (RefreshDeviceReq) returns (.google.protobuf.Empty);
+
+  // GetDevices of authenticated user.
+  rpc GetDevices (.google.protobuf.Empty) returns (GetDevicesResp);
+
+  // RevokeDevices will revoke firebase refresh token and delete all devices associated with user.
+  rpc RevokeDevices (.google.protobuf.Empty) returns (.google.protobuf.Empty);
+}
+
+
+message RegisterReq {
+  string displayName = 1;
+  string email = 2;
+}
+
+message LoginResp {
+  // CustomToken that can be used to login Firebase.
+  string customToken = 1;
+}
+
+message GetProfileReq {
+  string uid = 1;
+}
+
+message Profile {
+  string uid = 1;
+  string email = 2;
+  string displayName = 3;
+  string avatar = 4;
+  string name = 5;
+  string nationality = 6;
+  string id = 7;
+}
+
+message RefreshDeviceReq {
+  enum PushChannelType {
+    fcm = 0;
+  }
+
+  string deviceId = 1;
+  string deviceModel = 2;
+  string deviceName = 3;
+  PushChannelType pushChannel = 4;
+  string pushKey = 5;
+}
+
+message GetDevicesResp {
+  message Device {
+    string deviceId = 1;
+    string deviceModel = 2;
+    string deviceName = 3;
+    google.protobuf.Timestamp lastSeen = 4;
+  }
+  repeated Device devices = 1;
+}
