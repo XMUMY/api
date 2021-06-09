@@ -21,7 +21,7 @@ func TestExtractAuthorizationFromContext(t *testing.T) {
 			}),
 		)
 
-		token := extractAuthorizationFromContext(ctx)
+		token := ExtractAuthorizationFromContext(ctx)
 		Convey("correct authorization extracted", func() {
 			So(token, ShouldEqual, "bearer SOME_TOKEN")
 		})

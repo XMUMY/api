@@ -147,7 +147,7 @@ func (x *AuthUserReq) Reset() {
 }
 
 func (x *AuthUserReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
+	return "CREDENTIAL"
 }
 
 func (*AuthUserReq) ProtoMessage() {}

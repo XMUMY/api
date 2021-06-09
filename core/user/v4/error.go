@@ -5,15 +5,13 @@ import (
 	"google.golang.org/grpc/codes"
 )
 
-const domain = "api.xmux.xdea.io"
-
 var (
-	UserNotFoundError = errors.NotFound(domain, ErrorReason_name[int32(ErrorReason_USER_NOT_FOUND)],
+	UserNotFoundError = errors.NotFound(ErrorReason_name[int32(ErrorReason_USER_NOT_FOUND)],
 		"user not found")
 
-	NoCustomTokenError = errors.ServiceUnavailable(domain, ErrorReason_name[int32(ErrorReason_NO_CUSTOM_TOKEN)],
+	NoCustomTokenError = errors.ServiceUnavailable(ErrorReason_name[int32(ErrorReason_NO_CUSTOM_TOKEN)],
 		"login successful but failed to get firebase token")
 
-	NeedRegisterError = errors.New(codes.FailedPrecondition, domain, ErrorReason_name[int32(ErrorReason_NEED_REGISTER)],
-		"need register before login")
+	NeedRegisterError = errors.New(int(codes.FailedPrecondition), ErrorReason_name[int32(ErrorReason_NEED_REGISTER)],
+		"need register before login") // TODO: GRPC status.
 )
