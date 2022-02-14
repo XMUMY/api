@@ -2,14 +2,18 @@ syntax = "proto3";
 
 package xmux.core.auth.v4;
 
+import "errors/errors.proto";
+
 option go_package = "git.xdea.xyz/XMUS/auth/auth/v4;v4";
 
 enum ErrorReason {
+  option (errors.default_code) = 500;
+
   UNKNOWN = 0;
-  INVALID_CREDENTIAL = 1;
-  INVALID_CAMPUS_ID = 2;
-  INVALID_PASSWORD = 3;
-  WRONG_PASSWORD = 4;
+  INVALID_CREDENTIAL = 1  [(errors.code) = 400];
+  INVALID_CAMPUS_ID = 2 [(errors.code) = 400];
+  INVALID_PASSWORD = 3 [(errors.code) = 400];
+  WRONG_PASSWORD = 4 [(errors.code) = 403];
   LDAP_SERVER_DOWN = 5;
-  WRONG_FIREBASE_ID_TOKEN = 6;
+  WRONG_FIREBASE_ID_TOKEN = 6 [(errors.code) = 403];
 }

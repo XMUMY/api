@@ -3,10 +3,17 @@ package v4
 import (
 	"context"
 	"encoding/base64"
+	"os"
 	"strings"
+	"time"
 
+	kuberegistry "github.com/go-kratos/kratos/contrib/registry/kubernetes/v2"
+	"github.com/go-kratos/kratos/v2/registry"
+	grpctransport "github.com/go-kratos/kratos/v2/transport/grpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/rest"
 )
 
 func ExtractAuthorizationFromContext(ctx context.Context) string {
@@ -65,14 +72,45 @@ func ExtractBearerAuthorizationFromContext(ctx context.Context) (token string, e
 }
 
 type Client struct {
-	client AuthClient
+	client AuthInternalClient
 }
 
 // NewClient creates a AuthClient wrapper with some helper functions.
 func NewClient(cc grpc.ClientConnInterface) *Client {
 	return &Client{
-		client: NewAuthClient(cc),
+		client: NewAuthInternalClient(cc),
 	}
+}
+
+// NewDirectClient creates a AuthClient wrapper with direct connection or external load balancer.
+func NewDirectClient() (client *Client, err error) {
+	conn, err := grpctransport.DialInsecure(
+		context.Background(),
+		grpctransport.WithEndpoint(os.Getenv("AUTH_ENDPOINT")),
+		grpctransport.WithTimeout(2*time.Second),
+	)
+
+	return NewClient(conn), err
+}
+
+// NewDefaultClient creates a AuthClient wrapper with discovery.
+func NewDefaultClient() (client *Client, err error) {
+	var discovery registry.Discovery
+	config, err := rest.InClusterConfig()
+	if err != nil {
+		return
+	}
+	discovery = kuberegistry.NewRegistry(kubernetes.NewForConfigOrDie(config))
+
+	conn, err := grpctransport.DialInsecure(
+		context.Background(),
+		grpctransport.WithEndpoint("discovery://xmus/xmux.core.auth.v4"),
+		grpctransport.WithTimeout(2*time.Second),
+		grpctransport.WithDiscovery(discovery),
+	)
+
+	client = NewClient(conn)
+	return
 }
 
 // AuthenticateWithCampusIdPassword and return non-nil resp if authentication success.

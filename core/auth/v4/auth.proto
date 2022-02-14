@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 
 option go_package = "git.xdea.xyz/XMUS/auth/api/auth/v4;v4";
 
-service Auth {
+service AuthInternal {
   // Authenticate user with credential.
   rpc AuthUser (AuthUserReq) returns (AuthUserResp);
 }

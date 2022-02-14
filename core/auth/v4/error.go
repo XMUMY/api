@@ -3,21 +3,20 @@ package v4
 import "github.com/go-kratos/kratos/v2/errors"
 
 var (
-	InvalidCredentialError = errors.Unauthorized(ErrorReason_name[int32(ErrorReason_INVALID_CREDENTIAL)],
-		"invalid credential")
-
-	InvalidCampusIdError = errors.BadRequest(ErrorReason_name[int32(ErrorReason_INVALID_CAMPUS_ID)],
-		"invalid campus id")
-
-	InvalidPasswordError = errors.BadRequest(ErrorReason_name[int32(ErrorReason_INVALID_PASSWORD)],
-		"invalid password")
-
-	WrongPasswordError = errors.Forbidden(ErrorReason_name[int32(ErrorReason_WRONG_PASSWORD)],
-		"wrong campus id or password")
-
-	LdapServerDown = errors.ServiceUnavailable(ErrorReason_name[int32(ErrorReason_LDAP_SERVER_DOWN)],
-		"LDAP service temporary unavailable")
-
-	WrongFirebaseIdToken = errors.Forbidden(ErrorReason_name[int32(ErrorReason_WRONG_FIREBASE_ID_TOKEN)],
-		"wrong / revoked firebase id token")
+	InvalidCredentialError *errors.Error
+	InvalidCampusIdError   *errors.Error
+	InvalidPasswordError   *errors.Error
+	WrongPasswordError     *errors.Error
+	LdapServerDown         *errors.Error
+	WrongFirebaseIdToken   *errors.Error
 )
+
+func init() {
+	file_api_auth_v4_error_reason_proto_init()
+	InvalidCredentialError = ErrorInvalidCredential("invalid credential")
+	InvalidCampusIdError = ErrorInvalidCampusId("invalid campus id")
+	InvalidPasswordError = ErrorInvalidPassword("invalid password")
+	WrongPasswordError = ErrorWrongPassword("wrong campus id or password")
+	LdapServerDown = ErrorLdapServerDown("LDAP service temporary unavailable")
+	WrongFirebaseIdToken = ErrorWrongFirebaseIdToken("wrong / revoked firebase id token")
+}
