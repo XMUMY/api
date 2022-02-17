@@ -2,9 +2,13 @@ syntax = "proto3";
 
 package xmux.core.aaso.v4;
 
+import "errors/errors.proto";
+
 option go_package = "git.xdea.xyz/XMUS/aaos/api/aaos/v4;v4";
 
 enum ErrorReason {
+  option (errors.default_code) = 500;
+
   AC_SERVICE_UNAVAILABLE = 0;
   AC_WRONG_PASSWORD = 1;
 }
