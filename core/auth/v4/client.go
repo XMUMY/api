@@ -3,17 +3,10 @@ package v4
 import (
 	"context"
 	"encoding/base64"
-	"os"
 	"strings"
-	"time"
 
-	kuberegistry "github.com/go-kratos/kratos/contrib/registry/kubernetes/v2"
-	"github.com/go-kratos/kratos/v2/registry"
-	grpctransport "github.com/go-kratos/kratos/v2/transport/grpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
-	"k8s.io/client-go/kubernetes"
-	"k8s.io/client-go/rest"
 )
 
 func ExtractAuthorizationFromContext(ctx context.Context) string {
@@ -75,42 +68,11 @@ type Client struct {
 	client AuthInternalClient
 }
 
-// NewClient creates a AuthClient wrapper with some helper functions.
+// NewClient creates a AuthInternalClient wrapper with some helper functions.
 func NewClient(cc grpc.ClientConnInterface) *Client {
 	return &Client{
 		client: NewAuthInternalClient(cc),
 	}
-}
-
-// NewDirectClient creates a AuthClient wrapper with direct connection or external load balancer.
-func NewDirectClient() (client *Client, err error) {
-	conn, err := grpctransport.DialInsecure(
-		context.Background(),
-		grpctransport.WithEndpoint(os.Getenv("AUTH_ENDPOINT")),
-		grpctransport.WithTimeout(2*time.Second),
-	)
-
-	return NewClient(conn), err
-}
-
-// NewDefaultClient creates a AuthClient wrapper with discovery.
-func NewDefaultClient() (client *Client, err error) {
-	var discovery registry.Discovery
-	config, err := rest.InClusterConfig()
-	if err != nil {
-		return
-	}
-	discovery = kuberegistry.NewRegistry(kubernetes.NewForConfigOrDie(config))
-
-	conn, err := grpctransport.DialInsecure(
-		context.Background(),
-		grpctransport.WithEndpoint("discovery://xmus/xmux.core.auth.v4"),
-		grpctransport.WithTimeout(2*time.Second),
-		grpctransport.WithDiscovery(discovery),
-	)
-
-	client = NewClient(conn)
-	return
 }
 
 // AuthenticateWithCampusIdPassword and return non-nil resp if authentication success.
@@ -121,14 +83,17 @@ func (c *Client) AuthenticateWithCampusIdPassword(ctx context.Context) (resp *Au
 		return
 	}
 
-	resp, err = c.client.AuthUser(ctx, &AuthUserReq{
-		Credential: &AuthUserReq_CampusIdPassword{
-			CampusIdPassword: &CampusIdPasswordCredential{
-				CampusId: strings.ToLower(uid),
-				Password: password,
+	resp, err = c.client.AuthUser(
+		ctx,
+		&AuthUserReq{
+			Credential: &AuthUserReq_CampusIdPassword{
+				CampusIdPassword: &CampusIdPasswordCredential{
+					CampusId: strings.ToLower(uid),
+					Password: password,
+				},
 			},
 		},
-	})
+	)
 
 	return
 }
@@ -152,22 +117,28 @@ func (c *Client) AuthenticateWithFirebaseIdToken(ctx context.Context) (resp *Aut
 func (c *Client) TryAuthenticate(ctx context.Context) (resp *AuthUserResp, err error) {
 	token, err := ExtractBearerAuthorizationFromContext(ctx)
 	if err == nil && token != "" {
-		resp, err = c.client.AuthUser(ctx, &AuthUserReq{
-			Credential: &AuthUserReq_FirebaseIdToken{FirebaseIdToken: token},
-		})
+		resp, err = c.client.AuthUser(
+			ctx,
+			&AuthUserReq{
+				Credential: &AuthUserReq_FirebaseIdToken{FirebaseIdToken: token},
+			},
+		)
 		return
 	}
 
 	uid, password, err := ExtractBasicAuthorizationFromContext(ctx)
 	if err == nil && uid != "" && password != "" {
-		resp, err = c.client.AuthUser(ctx, &AuthUserReq{
-			Credential: &AuthUserReq_CampusIdPassword{
-				CampusIdPassword: &CampusIdPasswordCredential{
-					CampusId: strings.ToLower(uid),
-					Password: password,
+		resp, err = c.client.AuthUser(
+			ctx,
+			&AuthUserReq{
+				Credential: &AuthUserReq_CampusIdPassword{
+					CampusIdPassword: &CampusIdPasswordCredential{
+						CampusId: strings.ToLower(uid),
+						Password: password,
+					},
 				},
 			},
-		})
+		)
 		return
 	}
 

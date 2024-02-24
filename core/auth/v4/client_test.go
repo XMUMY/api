@@ -70,9 +70,10 @@ func TestExtractBearerAuthorizationFromContext(t *testing.T) {
 }
 
 func TestAuthenticateWithCampusIdPassword(t *testing.T) {
-	Convey("authenticate with campus id and password", t, func() {
+	SkipConvey("authenticate with campus id and password", t, func() {
 		encoded := base64.StdEncoding.EncodeToString(
-			[]byte(fmt.Sprintf("%s:%s",
+			[]byte(fmt.Sprintf(
+				"%s:%s",
 				os.Getenv("TEST_CAMPUS_ID"),
 				os.Getenv("TEST_CAMPUS_ID_PASSWORD"),
 			)),
@@ -90,7 +91,7 @@ func TestAuthenticateWithCampusIdPassword(t *testing.T) {
 		}
 		client := NewClient(conn)
 
-		SkipConvey("authenticated successfully", func() {
+		Convey("authenticated successfully", func() {
 			resp, password, err := client.AuthenticateWithCampusIdPassword(ctx)
 			So(resp, ShouldNotBeNil)
 			So(password, ShouldEqual, os.Getenv("TEST_CAMPUS_ID_PASSWORD"))

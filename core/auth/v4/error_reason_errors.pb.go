@@ -71,18 +71,6 @@ func ErrorWrongPassword(format string, args ...interface{}) *errors.Error {
 	return errors.New(403, ErrorReason_WRONG_PASSWORD.String(), fmt.Sprintf(format, args...))
 }
 
-func IsLdapServerDown(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == ErrorReason_LDAP_SERVER_DOWN.String() && e.Code == 500
-}
-
-func ErrorLdapServerDown(format string, args ...interface{}) *errors.Error {
-	return errors.New(500, ErrorReason_LDAP_SERVER_DOWN.String(), fmt.Sprintf(format, args...))
-}
-
 func IsWrongFirebaseIdToken(err error) bool {
 	if err == nil {
 		return false
@@ -93,4 +81,16 @@ func IsWrongFirebaseIdToken(err error) bool {
 
 func ErrorWrongFirebaseIdToken(format string, args ...interface{}) *errors.Error {
 	return errors.New(403, ErrorReason_WRONG_FIREBASE_ID_TOKEN.String(), fmt.Sprintf(format, args...))
+}
+
+func IsLdapServerDown(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_LDAP_SERVER_DOWN.String() && e.Code == 500
+}
+
+func ErrorLdapServerDown(format string, args ...interface{}) *errors.Error {
+	return errors.New(500, ErrorReason_LDAP_SERVER_DOWN.String(), fmt.Sprintf(format, args...))
 }
