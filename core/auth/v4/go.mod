@@ -6,7 +6,7 @@ require (
 	github.com/go-kratos/kratos/v2 v2.7.2
 	github.com/smartystreets/goconvey v1.8.1
 	google.golang.org/grpc v1.62.0
-	google.golang.org/protobuf v1.32.0
+	google.golang.org/protobuf v1.33.0
 )
 
 require (
