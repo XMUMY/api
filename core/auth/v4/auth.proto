@@ -17,11 +17,11 @@ message CampusIdPasswordCredential {
 
 message AuthUserReq {
   oneof credential {
-      // Authenticate user with campus ID and password.
-      CampusIdPasswordCredential campusIdPassword = 1;
+    // Authenticate user with campus ID and password.
+    CampusIdPasswordCredential campusIdPassword = 1;
 
-      // Authenticate user with firebase ID token.
-      string firebaseIdToken = 2;
+    // Authenticate user with firebase ID token.
+    string firebaseIdToken = 2;
   }
 }
 

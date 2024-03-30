@@ -64,19 +64,25 @@ func ExtractBearerAuthorizationFromContext(ctx context.Context) (token string, e
 	return
 }
 
-type Client struct {
+type Client interface {
+	AuthenticateWithCampusIdPassword(ctx context.Context) (*AuthUserResp, string, error)
+	AuthenticateWithFirebaseIdToken(ctx context.Context) (*AuthUserResp, error)
+	TryAuthenticate(ctx context.Context) (*AuthUserResp, error)
+}
+
+type client struct {
 	client AuthInternalClient
 }
 
 // NewClient creates a AuthInternalClient wrapper with some helper functions.
-func NewClient(cc grpc.ClientConnInterface) *Client {
-	return &Client{
+func NewClient(cc grpc.ClientConnInterface) Client {
+	return &client{
 		client: NewAuthInternalClient(cc),
 	}
 }
 
 // AuthenticateWithCampusIdPassword and return non-nil resp if authentication success.
-func (c *Client) AuthenticateWithCampusIdPassword(ctx context.Context) (resp *AuthUserResp, password string, err error) {
+func (c *client) AuthenticateWithCampusIdPassword(ctx context.Context) (resp *AuthUserResp, password string, err error) {
 	var uid string
 	uid, password, err = ExtractBasicAuthorizationFromContext(ctx)
 	if err != nil {
@@ -99,7 +105,7 @@ func (c *Client) AuthenticateWithCampusIdPassword(ctx context.Context) (resp *Au
 }
 
 // AuthenticateWithFirebaseIdToken and return non-nil resp if authentication success.
-func (c *Client) AuthenticateWithFirebaseIdToken(ctx context.Context) (resp *AuthUserResp, err error) {
+func (c *client) AuthenticateWithFirebaseIdToken(ctx context.Context) (resp *AuthUserResp, err error) {
 	var token string
 	token, err = ExtractBearerAuthorizationFromContext(ctx)
 	if err != nil {
@@ -114,7 +120,7 @@ func (c *Client) AuthenticateWithFirebaseIdToken(ctx context.Context) (resp *Aut
 }
 
 // TryAuthenticate with firebase ID token and campus ID password.
-func (c *Client) TryAuthenticate(ctx context.Context) (resp *AuthUserResp, err error) {
+func (c *client) TryAuthenticate(ctx context.Context) (resp *AuthUserResp, err error) {
 	token, err := ExtractBearerAuthorizationFromContext(ctx)
 	if err == nil && token != "" {
 		resp, err = c.client.AuthUser(
