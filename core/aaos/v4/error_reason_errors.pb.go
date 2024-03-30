@@ -16,11 +16,11 @@ func IsAcServiceUnavailable(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrorReason_AC_SERVICE_UNAVAILABLE.String() && e.Code == 500
+	return e.Reason == ErrorReason_AC_SERVICE_UNAVAILABLE.String() && e.Code == 503
 }
 
 func ErrorAcServiceUnavailable(format string, args ...interface{}) *errors.Error {
-	return errors.New(500, ErrorReason_AC_SERVICE_UNAVAILABLE.String(), fmt.Sprintf(format, args...))
+	return errors.New(503, ErrorReason_AC_SERVICE_UNAVAILABLE.String(), fmt.Sprintf(format, args...))
 }
 
 func IsAcWrongPassword(err error) bool {
@@ -28,9 +28,21 @@ func IsAcWrongPassword(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrorReason_AC_WRONG_PASSWORD.String() && e.Code == 500
+	return e.Reason == ErrorReason_AC_WRONG_PASSWORD.String() && e.Code == 403
 }
 
 func ErrorAcWrongPassword(format string, args ...interface{}) *errors.Error {
-	return errors.New(500, ErrorReason_AC_WRONG_PASSWORD.String(), fmt.Sprintf(format, args...))
+	return errors.New(403, ErrorReason_AC_WRONG_PASSWORD.String(), fmt.Sprintf(format, args...))
+}
+
+func IsAcAccountBlocked(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_AC_ACCOUNT_BLOCKED.String() && e.Code == 403
+}
+
+func ErrorAcAccountBlocked(format string, args ...interface{}) *errors.Error {
+	return errors.New(403, ErrorReason_AC_ACCOUNT_BLOCKED.String(), fmt.Sprintf(format, args...))
 }

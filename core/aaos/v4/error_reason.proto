@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package xmux.core.aaso.v4;
+package xmux.core.aaos.v4;
 
 import "errors/errors.proto";
 
@@ -9,6 +9,7 @@ option go_package = "git.xdea.xyz/XMUS/aaos/api/aaos/v4;v4";
 enum ErrorReason {
   option (errors.default_code) = 500;
 
-  AC_SERVICE_UNAVAILABLE = 0;
-  AC_WRONG_PASSWORD = 1;
+  AC_SERVICE_UNAVAILABLE = 0 [(errors.code) = 503];
+  AC_WRONG_PASSWORD = 1 [(errors.code) = 403];
+  AC_ACCOUNT_BLOCKED = 2 [(errors.code) = 403];
 }
