@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package xmux.core.user.v4;
+
+option go_package = "git.xdea.xyz/XMUS/user/api/user/v4;v4";
+
+service UserInternal {
+  rpc GetNames (GetNamesReq) returns (GetNamesResp);
+}
+
+message GetNamesReq {
+  repeated string uids = 1;
+}
+
+message GetNamesResp {
+  map<string, string> names = 1;
+}

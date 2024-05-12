@@ -2,10 +2,14 @@ syntax = "proto3";
 
 package xmux.core.user.v4;
 
+import "errors/errors.proto";
+
 option go_package = "git.xdea.xyz/XMUS/user/api/user/v4;v4";
 
 enum ErrorReason {
-  USER_NOT_FOUND = 0;
+  option (errors.default_code) = 500;
+
+  USER_NOT_FOUND = 0 [(errors.code) = 404];
   NO_CUSTOM_TOKEN = 1;
   NEED_REGISTER = 2;
 }

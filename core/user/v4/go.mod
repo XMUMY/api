@@ -1,4 +1,4 @@
-module github.com/XMUMY/api/core/aaos/v4
+module github.com/XMUMY/api/core/user/v4
 
 go 1.22
 

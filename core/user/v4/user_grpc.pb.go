@@ -294,5 +294,5 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/user/v4/user.proto",
+	Metadata: "user/v4/user.proto",
 }
