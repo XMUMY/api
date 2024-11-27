@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package xmux.xia.v4;
+
+option go_package = "git.xdea.xyz/XMUS/xia/api/xia/v4;v4";
+
+service Xia {
+  rpc Chat (ChatReq) returns (ChatResp);
+  rpc ChatStream (ChatReq) returns (stream ChatResp);
+}
+
+message GenerationConfig {
+  float temperature = 1;
+  float top_p = 2;
+  int32 top_k = 3;
+}
+
+message Content {
+  oneof content {
+    string text = 1;
+    string image_url = 2;
+  }
+}
+
+enum Role {
+  SYSTEM = 0;
+  USER = 1;
+  MODEL = 2;
+}
+
+message Message {
+  string id = 1;
+  Role role = 2;
+  repeated Content contents = 3;
+}
+
+message ChatReq {
+  string id = 1;
+  string model = 2;
+  GenerationConfig config = 3;
+  repeated Message messages = 4;
+}
+
+message ChatResp {
+  string id = 1;
+  Message message = 2;
+}
