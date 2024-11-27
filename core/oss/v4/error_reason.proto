@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package xmux.core.oss.v4;
+
+import "errors/errors.proto";
+
+option go_package = "git.xdea.xyz/XMUS/oss/api/oss/v4;v4";
+
+enum ErrorReason {
+  option (errors.default_code) = 500;
+
+  UNKNOWN = 0;
+  UNSUPPORTED_FORMAT = 1;
+}

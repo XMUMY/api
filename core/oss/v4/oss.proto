@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package xmux.core.oss.v4;
+
+option go_package = "git.xdea.xyz/XMUS/oss/api/oss/v4;v4";
+
+service OSS {
+  rpc UploadPicture (UploadPictureReq) returns (UploadPictureResp);
+}
+
+message UploadPictureReq {
+  // The business that the picture belongs to
+  string biz = 1;
+  // The picture data
+  bytes data = 2;
+}
+
+message UploadPictureResp {
+  // The URL of the uploaded picture
+  string url = 1;
+}
