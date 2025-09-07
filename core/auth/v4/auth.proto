@@ -11,17 +11,17 @@ service AuthInternal {
 
 // Credential for authenticating user with campus ID and password.
 message CampusIdPasswordCredential {
-  string campusId = 1;
+  string campus_id = 1;
   string password = 2;
 }
 
 message AuthUserReq {
   oneof credential {
     // Authenticate user with campus ID and password.
-    CampusIdPasswordCredential campusIdPassword = 1;
+    CampusIdPasswordCredential campus_id_password = 1;
 
     // Authenticate user with firebase ID token.
-    string firebaseIdToken = 2;
+    string firebase_id_token = 2;
   }
 }
 
@@ -33,5 +33,5 @@ enum CampusRole {
 
 message AuthUserResp {
   string uid = 1;
-  CampusRole campusRole = 2;
+  CampusRole campus_role = 2;
 }
