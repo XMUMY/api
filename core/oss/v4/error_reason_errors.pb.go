@@ -34,3 +34,15 @@ func IsUnsupportedFormat(err error) bool {
 func ErrorUnsupportedFormat(format string, args ...interface{}) *errors.Error {
 	return errors.New(500, ErrorReason_UNSUPPORTED_FORMAT.String(), fmt.Sprintf(format, args...))
 }
+
+func IsContentViolation(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_CONTENT_VIOLATION.String() && e.Code == 500
+}
+
+func ErrorContentViolation(format string, args ...interface{}) *errors.Error {
+	return errors.New(500, ErrorReason_CONTENT_VIOLATION.String(), fmt.Sprintf(format, args...))
+}

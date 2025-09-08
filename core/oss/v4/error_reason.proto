@@ -11,4 +11,5 @@ enum ErrorReason {
 
   UNKNOWN = 0;
   UNSUPPORTED_FORMAT = 1;
+  CONTENT_VIOLATION = 2;
 }

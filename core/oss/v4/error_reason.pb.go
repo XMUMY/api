@@ -27,6 +27,7 @@ type ErrorReason int32
 const (
 	ErrorReason_UNKNOWN            ErrorReason = 0
 	ErrorReason_UNSUPPORTED_FORMAT ErrorReason = 1
+	ErrorReason_CONTENT_VIOLATION  ErrorReason = 2
 )
 
 // Enum value maps for ErrorReason.
@@ -34,10 +35,12 @@ var (
 	ErrorReason_name = map[int32]string{
 		0: "UNKNOWN",
 		1: "UNSUPPORTED_FORMAT",
+		2: "CONTENT_VIOLATION",
 	}
 	ErrorReason_value = map[string]int32{
 		"UNKNOWN":            0,
 		"UNSUPPORTED_FORMAT": 1,
+		"CONTENT_VIOLATION":  2,
 	}
 )
 
