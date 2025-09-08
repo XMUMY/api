@@ -75,10 +75,11 @@ var File_oss_v4_error_reason_proto protoreflect.FileDescriptor
 
 const file_oss_v4_error_reason_proto_rawDesc = "" +
 	"\n" +
-	"\x19oss/v4/error_reason.proto\x12\x10xmux.core.oss.v4\x1a\x13errors/errors.proto*8\n" +
+	"\x19oss/v4/error_reason.proto\x12\x10xmux.core.oss.v4\x1a\x13errors/errors.proto*O\n" +
 	"\vErrorReason\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\x16\n" +
-	"\x12UNSUPPORTED_FORMAT\x10\x01\x1a\x04\xa0E\xf4\x03B%Z#git.xdea.xyz/XMUS/oss/api/oss/v4;v4b\x06proto3"
+	"\x12UNSUPPORTED_FORMAT\x10\x01\x12\x15\n" +
+	"\x11CONTENT_VIOLATION\x10\x02\x1a\x04\xa0E\xf4\x03B%Z#git.xdea.xyz/XMUS/oss/api/oss/v4;v4b\x06proto3"
 
 var (
 	file_oss_v4_error_reason_proto_rawDescOnce sync.Once

@@ -21,30 +21,31 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UploadPictureReq struct {
+// Request to upload a file directly via gRPC
+type UploadReq struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The business that the picture belongs to
+	// Business context, used to categorize uploads
 	Biz string `protobuf:"bytes,1,opt,name=biz,proto3" json:"biz,omitempty"`
-	// The picture data
+	// File data (binary)
 	Data          []byte `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UploadPictureReq) Reset() {
-	*x = UploadPictureReq{}
+func (x *UploadReq) Reset() {
+	*x = UploadReq{}
 	mi := &file_oss_v4_oss_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UploadPictureReq) String() string {
+func (x *UploadReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UploadPictureReq) ProtoMessage() {}
+func (*UploadReq) ProtoMessage() {}
 
-func (x *UploadPictureReq) ProtoReflect() protoreflect.Message {
+func (x *UploadReq) ProtoReflect() protoreflect.Message {
 	mi := &file_oss_v4_oss_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -56,47 +57,50 @@ func (x *UploadPictureReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UploadPictureReq.ProtoReflect.Descriptor instead.
-func (*UploadPictureReq) Descriptor() ([]byte, []int) {
+// Deprecated: Use UploadReq.ProtoReflect.Descriptor instead.
+func (*UploadReq) Descriptor() ([]byte, []int) {
 	return file_oss_v4_oss_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *UploadPictureReq) GetBiz() string {
+func (x *UploadReq) GetBiz() string {
 	if x != nil {
 		return x.Biz
 	}
 	return ""
 }
 
-func (x *UploadPictureReq) GetData() []byte {
+func (x *UploadReq) GetData() []byte {
 	if x != nil {
 		return x.Data
 	}
 	return nil
 }
 
-type UploadPictureResp struct {
+// Response for direct upload
+type UploadResp struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The URL of the uploaded picture
-	Url           string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	// Static URL of the uploaded file
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	// Short-lived presigned URL for downloading the file
+	DownloadUrl   string `protobuf:"bytes,2,opt,name=download_url,json=downloadUrl,proto3" json:"download_url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UploadPictureResp) Reset() {
-	*x = UploadPictureResp{}
+func (x *UploadResp) Reset() {
+	*x = UploadResp{}
 	mi := &file_oss_v4_oss_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UploadPictureResp) String() string {
+func (x *UploadResp) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UploadPictureResp) ProtoMessage() {}
+func (*UploadResp) ProtoMessage() {}
 
-func (x *UploadPictureResp) ProtoReflect() protoreflect.Message {
+func (x *UploadResp) ProtoReflect() protoreflect.Message {
 	mi := &file_oss_v4_oss_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -108,12 +112,221 @@ func (x *UploadPictureResp) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UploadPictureResp.ProtoReflect.Descriptor instead.
-func (*UploadPictureResp) Descriptor() ([]byte, []int) {
+// Deprecated: Use UploadResp.ProtoReflect.Descriptor instead.
+func (*UploadResp) Descriptor() ([]byte, []int) {
 	return file_oss_v4_oss_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *UploadPictureResp) GetUrl() string {
+func (x *UploadResp) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
+func (x *UploadResp) GetDownloadUrl() string {
+	if x != nil {
+		return x.DownloadUrl
+	}
+	return ""
+}
+
+// Request for presigned upload credentials
+type GetUploadCredentialsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Business context, used to categorize uploads
+	Biz           string `protobuf:"bytes,1,opt,name=biz,proto3" json:"biz,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUploadCredentialsRequest) Reset() {
+	*x = GetUploadCredentialsRequest{}
+	mi := &file_oss_v4_oss_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUploadCredentialsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUploadCredentialsRequest) ProtoMessage() {}
+
+func (x *GetUploadCredentialsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_oss_v4_oss_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUploadCredentialsRequest.ProtoReflect.Descriptor instead.
+func (*GetUploadCredentialsRequest) Descriptor() ([]byte, []int) {
+	return file_oss_v4_oss_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetUploadCredentialsRequest) GetBiz() string {
+	if x != nil {
+		return x.Biz
+	}
+	return ""
+}
+
+// Response containing presigned POST policy and form data
+type GetUploadCredentialsResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Static URL of the file (to be used after upload)
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	// Presigned POST URL for direct upload
+	UploadUrl string `protobuf:"bytes,2,opt,name=upload_url,json=uploadUrl,proto3" json:"upload_url,omitempty"`
+	// Form data fields for direct upload
+	FormData      map[string]string `protobuf:"bytes,3,rep,name=form_data,json=formData,proto3" json:"form_data,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUploadCredentialsResponse) Reset() {
+	*x = GetUploadCredentialsResponse{}
+	mi := &file_oss_v4_oss_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUploadCredentialsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUploadCredentialsResponse) ProtoMessage() {}
+
+func (x *GetUploadCredentialsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_oss_v4_oss_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUploadCredentialsResponse.ProtoReflect.Descriptor instead.
+func (*GetUploadCredentialsResponse) Descriptor() ([]byte, []int) {
+	return file_oss_v4_oss_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetUploadCredentialsResponse) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
+func (x *GetUploadCredentialsResponse) GetUploadUrl() string {
+	if x != nil {
+		return x.UploadUrl
+	}
+	return ""
+}
+
+func (x *GetUploadCredentialsResponse) GetFormData() map[string]string {
+	if x != nil {
+		return x.FormData
+	}
+	return nil
+}
+
+// Request for a presigned download URL
+type GetDownloadURLRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Static URL of the file
+	Url           string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDownloadURLRequest) Reset() {
+	*x = GetDownloadURLRequest{}
+	mi := &file_oss_v4_oss_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDownloadURLRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDownloadURLRequest) ProtoMessage() {}
+
+func (x *GetDownloadURLRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_oss_v4_oss_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDownloadURLRequest.ProtoReflect.Descriptor instead.
+func (*GetDownloadURLRequest) Descriptor() ([]byte, []int) {
+	return file_oss_v4_oss_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetDownloadURLRequest) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
+// Response containing short-lived presigned GET URL
+type GetDownloadURLResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Short-lived presigned GET URL
+	Url           string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDownloadURLResponse) Reset() {
+	*x = GetDownloadURLResponse{}
+	mi := &file_oss_v4_oss_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDownloadURLResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDownloadURLResponse) ProtoMessage() {}
+
+func (x *GetDownloadURLResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_oss_v4_oss_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDownloadURLResponse.ProtoReflect.Descriptor instead.
+func (*GetDownloadURLResponse) Descriptor() ([]byte, []int) {
+	return file_oss_v4_oss_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetDownloadURLResponse) GetUrl() string {
 	if x != nil {
 		return x.Url
 	}
@@ -124,14 +337,32 @@ var File_oss_v4_oss_proto protoreflect.FileDescriptor
 
 const file_oss_v4_oss_proto_rawDesc = "" +
 	"\n" +
-	"\x10oss/v4/oss.proto\x12\x10xmux.core.oss.v4\"8\n" +
-	"\x10UploadPictureReq\x12\x10\n" +
+	"\x10oss/v4/oss.proto\x12\x10xmux.core.oss.v4\"1\n" +
+	"\tUploadReq\x12\x10\n" +
 	"\x03biz\x18\x01 \x01(\tR\x03biz\x12\x12\n" +
-	"\x04data\x18\x02 \x01(\fR\x04data\"%\n" +
-	"\x11UploadPictureResp\x12\x10\n" +
-	"\x03url\x18\x01 \x01(\tR\x03url2_\n" +
-	"\x03OSS\x12X\n" +
-	"\rUploadPicture\x12\".xmux.core.oss.v4.UploadPictureReq\x1a#.xmux.core.oss.v4.UploadPictureRespB%Z#git.xdea.xyz/XMUS/oss/api/oss/v4;v4b\x06proto3"
+	"\x04data\x18\x02 \x01(\fR\x04data\"A\n" +
+	"\n" +
+	"UploadResp\x12\x10\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\x12!\n" +
+	"\fdownload_url\x18\x02 \x01(\tR\vdownloadUrl\"/\n" +
+	"\x1bGetUploadCredentialsRequest\x12\x10\n" +
+	"\x03biz\x18\x01 \x01(\tR\x03biz\"\xe7\x01\n" +
+	"\x1cGetUploadCredentialsResponse\x12\x10\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\x12\x1d\n" +
+	"\n" +
+	"upload_url\x18\x02 \x01(\tR\tuploadUrl\x12Y\n" +
+	"\tform_data\x18\x03 \x03(\v2<.xmux.core.oss.v4.GetUploadCredentialsResponse.FormDataEntryR\bformData\x1a;\n" +
+	"\rFormDataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\")\n" +
+	"\x15GetDownloadURLRequest\x12\x10\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\"*\n" +
+	"\x16GetDownloadURLResponse\x12\x10\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url2\xa6\x02\n" +
+	"\x03OSS\x12C\n" +
+	"\x06Upload\x12\x1b.xmux.core.oss.v4.UploadReq\x1a\x1c.xmux.core.oss.v4.UploadResp\x12u\n" +
+	"\x14GetUploadCredentials\x12-.xmux.core.oss.v4.GetUploadCredentialsRequest\x1a..xmux.core.oss.v4.GetUploadCredentialsResponse\x12c\n" +
+	"\x0eGetDownloadURL\x12'.xmux.core.oss.v4.GetDownloadURLRequest\x1a(.xmux.core.oss.v4.GetDownloadURLResponseB%Z#git.xdea.xyz/XMUS/oss/api/oss/v4;v4b\x06proto3"
 
 var (
 	file_oss_v4_oss_proto_rawDescOnce sync.Once
@@ -145,19 +376,29 @@ func file_oss_v4_oss_proto_rawDescGZIP() []byte {
 	return file_oss_v4_oss_proto_rawDescData
 }
 
-var file_oss_v4_oss_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_oss_v4_oss_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_oss_v4_oss_proto_goTypes = []any{
-	(*UploadPictureReq)(nil),  // 0: xmux.core.oss.v4.UploadPictureReq
-	(*UploadPictureResp)(nil), // 1: xmux.core.oss.v4.UploadPictureResp
+	(*UploadReq)(nil),                    // 0: xmux.core.oss.v4.UploadReq
+	(*UploadResp)(nil),                   // 1: xmux.core.oss.v4.UploadResp
+	(*GetUploadCredentialsRequest)(nil),  // 2: xmux.core.oss.v4.GetUploadCredentialsRequest
+	(*GetUploadCredentialsResponse)(nil), // 3: xmux.core.oss.v4.GetUploadCredentialsResponse
+	(*GetDownloadURLRequest)(nil),        // 4: xmux.core.oss.v4.GetDownloadURLRequest
+	(*GetDownloadURLResponse)(nil),       // 5: xmux.core.oss.v4.GetDownloadURLResponse
+	nil,                                  // 6: xmux.core.oss.v4.GetUploadCredentialsResponse.FormDataEntry
 }
 var file_oss_v4_oss_proto_depIdxs = []int32{
-	0, // 0: xmux.core.oss.v4.OSS.UploadPicture:input_type -> xmux.core.oss.v4.UploadPictureReq
-	1, // 1: xmux.core.oss.v4.OSS.UploadPicture:output_type -> xmux.core.oss.v4.UploadPictureResp
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	6, // 0: xmux.core.oss.v4.GetUploadCredentialsResponse.form_data:type_name -> xmux.core.oss.v4.GetUploadCredentialsResponse.FormDataEntry
+	0, // 1: xmux.core.oss.v4.OSS.Upload:input_type -> xmux.core.oss.v4.UploadReq
+	2, // 2: xmux.core.oss.v4.OSS.GetUploadCredentials:input_type -> xmux.core.oss.v4.GetUploadCredentialsRequest
+	4, // 3: xmux.core.oss.v4.OSS.GetDownloadURL:input_type -> xmux.core.oss.v4.GetDownloadURLRequest
+	1, // 4: xmux.core.oss.v4.OSS.Upload:output_type -> xmux.core.oss.v4.UploadResp
+	3, // 5: xmux.core.oss.v4.OSS.GetUploadCredentials:output_type -> xmux.core.oss.v4.GetUploadCredentialsResponse
+	5, // 6: xmux.core.oss.v4.OSS.GetDownloadURL:output_type -> xmux.core.oss.v4.GetDownloadURLResponse
+	4, // [4:7] is the sub-list for method output_type
+	1, // [1:4] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_oss_v4_oss_proto_init() }
@@ -171,7 +412,7 @@ func file_oss_v4_oss_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_oss_v4_oss_proto_rawDesc), len(file_oss_v4_oss_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

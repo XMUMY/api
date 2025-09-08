@@ -1,0 +1,21 @@
+
+syntax = "proto3";
+
+package xmux.core.oss.v4;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "git.xdea.xyz/XMUS/oss/api/oss/v4;v4";
+
+// Internal OSS service for inter-service communication
+service OSSInternal {
+  // Confirm that an object has been successfully uploaded and associated with a business entity.
+  // Removes the 'status:unconfirmed' tag from the object.
+  rpc ConfirmObject(ConfirmObjectRequest) returns (google.protobuf.Empty);
+}
+
+// Request to confirm an object after business association
+message ConfirmObjectRequest {
+  // Static URL of the file to confirm
+  string url = 1;
+}

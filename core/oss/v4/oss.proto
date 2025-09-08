@@ -1,21 +1,62 @@
+
 syntax = "proto3";
 
 package xmux.core.oss.v4;
 
 option go_package = "git.xdea.xyz/XMUS/oss/api/oss/v4;v4";
 
+// OSS service for client-facing object storage operations
 service OSS {
-  rpc UploadPicture (UploadPictureReq) returns (UploadPictureResp);
+  // Direct file upload from client for small files or simple flows
+  rpc Upload (UploadReq) returns (UploadResp);
+
+  // Get upload credentials for client-direct upload
+  rpc GetUploadCredentials(GetUploadCredentialsRequest) returns (GetUploadCredentialsResponse);
+
+  // Get a short-lived download URL for a private file
+  rpc GetDownloadURL(GetDownloadURLRequest) returns (GetDownloadURLResponse);
 }
 
-message UploadPictureReq {
-  // The business that the picture belongs to
+// Request to upload a file directly via gRPC
+message UploadReq {
+  // Business context, used to categorize uploads
   string biz = 1;
-  // The picture data
+  // File data (binary)
   bytes data = 2;
 }
 
-message UploadPictureResp {
-  // The URL of the uploaded picture
+// Response for direct upload
+message UploadResp {
+  // Static URL of the uploaded file
+  string url = 1;
+  // Short-lived presigned URL for downloading the file
+  string download_url = 2;
+}
+
+// Request for presigned upload credentials
+message GetUploadCredentialsRequest {
+  // Business context, used to categorize uploads
+  string biz = 1;
+}
+
+// Response containing presigned POST policy and form data
+message GetUploadCredentialsResponse {
+  // Static URL of the file (to be used after upload)
+  string url = 1;
+  // Presigned POST URL for direct upload
+  string upload_url = 2;
+  // Form data fields for direct upload
+  map<string, string> form_data = 3;
+}
+
+// Request for a presigned download URL
+message GetDownloadURLRequest {
+  // Static URL of the file
+  string url = 1;
+}
+
+// Response containing short-lived presigned GET URL
+message GetDownloadURLResponse {
+  // Short-lived presigned GET URL
   string url = 1;
 }
