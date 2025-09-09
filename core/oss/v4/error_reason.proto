@@ -10,6 +10,7 @@ enum ErrorReason {
   option (errors.default_code) = 500;
 
   UNKNOWN = 0;
-  UNSUPPORTED_FORMAT = 1;
-  CONTENT_VIOLATION = 2;
+  UNSUPPORTED_BIZ = 1;
+  UNSUPPORTED_FORMAT = 2;
+  CONTENT_VIOLATION = 3;
 }

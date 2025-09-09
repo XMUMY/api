@@ -7,6 +7,7 @@
 package v4
 
 import (
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -244,8 +245,10 @@ func (x *GetUploadCredentialsResponse) GetFormData() map[string]string {
 // Request for a presigned download URL
 type GetDownloadURLRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Static URL of the file
-	Url           string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	// Business context
+	Biz string `protobuf:"bytes,1,opt,name=biz,proto3" json:"biz,omitempty"`
+	// The name of the file
+	Name          string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -280,9 +283,16 @@ func (*GetDownloadURLRequest) Descriptor() ([]byte, []int) {
 	return file_oss_v4_oss_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *GetDownloadURLRequest) GetUrl() string {
+func (x *GetDownloadURLRequest) GetBiz() string {
 	if x != nil {
-		return x.Url
+		return x.Biz
+	}
+	return ""
+}
+
+func (x *GetDownloadURLRequest) GetName() string {
+	if x != nil {
+		return x.Name
 	}
 	return ""
 }
@@ -337,7 +347,7 @@ var File_oss_v4_oss_proto protoreflect.FileDescriptor
 
 const file_oss_v4_oss_proto_rawDesc = "" +
 	"\n" +
-	"\x10oss/v4/oss.proto\x12\x10xmux.core.oss.v4\"1\n" +
+	"\x10oss/v4/oss.proto\x12\x10xmux.core.oss.v4\x1a\x1cgoogle/api/annotations.proto\"1\n" +
 	"\tUploadReq\x12\x10\n" +
 	"\x03biz\x18\x01 \x01(\tR\x03biz\x12\x12\n" +
 	"\x04data\x18\x02 \x01(\fR\x04data\"A\n" +
@@ -354,15 +364,16 @@ const file_oss_v4_oss_proto_rawDesc = "" +
 	"\tform_data\x18\x03 \x03(\v2<.xmux.core.oss.v4.GetUploadCredentialsResponse.FormDataEntryR\bformData\x1a;\n" +
 	"\rFormDataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\")\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"=\n" +
 	"\x15GetDownloadURLRequest\x12\x10\n" +
-	"\x03url\x18\x01 \x01(\tR\x03url\"*\n" +
+	"\x03biz\x18\x01 \x01(\tR\x03biz\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"*\n" +
 	"\x16GetDownloadURLResponse\x12\x10\n" +
-	"\x03url\x18\x01 \x01(\tR\x03url2\xa6\x02\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url2\xc5\x02\n" +
 	"\x03OSS\x12C\n" +
 	"\x06Upload\x12\x1b.xmux.core.oss.v4.UploadReq\x1a\x1c.xmux.core.oss.v4.UploadResp\x12u\n" +
-	"\x14GetUploadCredentials\x12-.xmux.core.oss.v4.GetUploadCredentialsRequest\x1a..xmux.core.oss.v4.GetUploadCredentialsResponse\x12c\n" +
-	"\x0eGetDownloadURL\x12'.xmux.core.oss.v4.GetDownloadURLRequest\x1a(.xmux.core.oss.v4.GetDownloadURLResponseB%Z#git.xdea.xyz/XMUS/oss/api/oss/v4;v4b\x06proto3"
+	"\x14GetUploadCredentials\x12-.xmux.core.oss.v4.GetUploadCredentialsRequest\x1a..xmux.core.oss.v4.GetUploadCredentialsResponse\x12\x81\x01\n" +
+	"\x0eGetDownloadURL\x12'.xmux.core.oss.v4.GetDownloadURLRequest\x1a(.xmux.core.oss.v4.GetDownloadURLResponse\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/v4/oss/{biz}/{name}B%Z#git.xdea.xyz/XMUS/oss/api/oss/v4;v4b\x06proto3"
 
 var (
 	file_oss_v4_oss_proto_rawDescOnce sync.Once

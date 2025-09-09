@@ -23,6 +23,18 @@ func ErrorUnknown(format string, args ...interface{}) *errors.Error {
 	return errors.New(500, ErrorReason_UNKNOWN.String(), fmt.Sprintf(format, args...))
 }
 
+func IsUnsupportedBiz(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_UNSUPPORTED_BIZ.String() && e.Code == 500
+}
+
+func ErrorUnsupportedBiz(format string, args ...interface{}) *errors.Error {
+	return errors.New(500, ErrorReason_UNSUPPORTED_BIZ.String(), fmt.Sprintf(format, args...))
+}
+
 func IsUnsupportedFormat(err error) bool {
 	if err == nil {
 		return false

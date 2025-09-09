@@ -26,21 +26,24 @@ type ErrorReason int32
 
 const (
 	ErrorReason_UNKNOWN            ErrorReason = 0
-	ErrorReason_UNSUPPORTED_FORMAT ErrorReason = 1
-	ErrorReason_CONTENT_VIOLATION  ErrorReason = 2
+	ErrorReason_UNSUPPORTED_BIZ    ErrorReason = 1
+	ErrorReason_UNSUPPORTED_FORMAT ErrorReason = 2
+	ErrorReason_CONTENT_VIOLATION  ErrorReason = 3
 )
 
 // Enum value maps for ErrorReason.
 var (
 	ErrorReason_name = map[int32]string{
 		0: "UNKNOWN",
-		1: "UNSUPPORTED_FORMAT",
-		2: "CONTENT_VIOLATION",
+		1: "UNSUPPORTED_BIZ",
+		2: "UNSUPPORTED_FORMAT",
+		3: "CONTENT_VIOLATION",
 	}
 	ErrorReason_value = map[string]int32{
 		"UNKNOWN":            0,
-		"UNSUPPORTED_FORMAT": 1,
-		"CONTENT_VIOLATION":  2,
+		"UNSUPPORTED_BIZ":    1,
+		"UNSUPPORTED_FORMAT": 2,
+		"CONTENT_VIOLATION":  3,
 	}
 )
 
@@ -75,11 +78,12 @@ var File_oss_v4_error_reason_proto protoreflect.FileDescriptor
 
 const file_oss_v4_error_reason_proto_rawDesc = "" +
 	"\n" +
-	"\x19oss/v4/error_reason.proto\x12\x10xmux.core.oss.v4\x1a\x13errors/errors.proto*O\n" +
+	"\x19oss/v4/error_reason.proto\x12\x10xmux.core.oss.v4\x1a\x13errors/errors.proto*d\n" +
 	"\vErrorReason\x12\v\n" +
-	"\aUNKNOWN\x10\x00\x12\x16\n" +
-	"\x12UNSUPPORTED_FORMAT\x10\x01\x12\x15\n" +
-	"\x11CONTENT_VIOLATION\x10\x02\x1a\x04\xa0E\xf4\x03B%Z#git.xdea.xyz/XMUS/oss/api/oss/v4;v4b\x06proto3"
+	"\aUNKNOWN\x10\x00\x12\x13\n" +
+	"\x0fUNSUPPORTED_BIZ\x10\x01\x12\x16\n" +
+	"\x12UNSUPPORTED_FORMAT\x10\x02\x12\x15\n" +
+	"\x11CONTENT_VIOLATION\x10\x03\x1a\x04\xa0E\xf4\x03B%Z#git.xdea.xyz/XMUS/oss/api/oss/v4;v4b\x06proto3"
 
 var (
 	file_oss_v4_error_reason_proto_rawDescOnce sync.Once
